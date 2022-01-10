@@ -1,7 +1,5 @@
 ### Hashicorp Vault provisioned by terraform in AWS Elastic Container Service
 
-<img src="diagram/vault.drawio.png" height="512">
-
 ##### The DynamoDB storage backend is used to persist Vault's data in DynamoDB table.
 
 #### Resources
