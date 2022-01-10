@@ -1,0 +1,41 @@
+image:
+  name: hashicorp/terraform:light
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+
+cache:
+  paths:
+    - .terraform
+
+before_script:
+  - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@git.animaeducacao.com.br/seguranca/opsteam/terraform-module-bucket-s3.git 
+  - terraform --version
+  - terraform init -reconfigure
+  
+stages:
+  - plan 
+  - apply
+
+Plan:
+  stage: plan
+  script: 
+    - export TF_VAR_aws_account=${AWS_ACCOUNT}
+    - export TF_VAR_region=${AWS_DEFAULT_REGION}
+    - export TF_VAR_project_name=${CI_PROJECT_NAME}
+    - terraform plan -var-file="terraform.tfvars"
+  tags:
+    - terraform
+
+Apply:
+  stage: apply
+  script: 
+    - export TF_VAR_aws_account=${AWS_ACCOUNT}
+    - export TF_VAR_region=${AWS_DEFAULT_REGION}
+    - export TF_VAR_project_name=${CI_PROJECT_NAME}
+    - terraform apply -auto-approve -var-file="terraform.tfvars"
+    #- terraform destroy -auto-approve
+  when: manual
+  tags:
+    - terraform    
