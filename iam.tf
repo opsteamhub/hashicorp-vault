@@ -3,8 +3,8 @@ locals {
     "templates/task_policy.json.tpl",
      {
         kms_resource      = aws_kms_key.vault.arn
-        dynamodb_resource = "arn:aws:dynamodb:${var.region}:${var.aws_account}:table/${var.dynamodb_table}"   
-                
+        #dynamodb_resource = "arn:aws:dynamodb:${var.region}:${var.aws_account}:table/${var.dynamodb_table}"   
+        dynamodb_resource = aws_dynamodb_table.dynamodb_table.arn        
       })
 }
 data "aws_iam_policy_document" "ecs_agent" {

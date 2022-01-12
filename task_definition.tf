@@ -2,7 +2,7 @@ locals {
   task_definition_vault = templatefile(
     "templates/task_definition_vault.json.tpl",
      {
-        image_vault       = var.image_vault
+        image_vault       = "${var.aws_account}.dkr.ecr.${var.region}.amazonaws.com/vault:15"
         disable_mlock     = var.disable_mlock
         kms_id            = aws_kms_key.vault.key_id
         seal_type         = var.seal_type
@@ -10,7 +10,7 @@ locals {
         memory            = var.memory
         awslogs_group     = local.log_name
         region            = var.region
-        dynamodb_table    = var.dynamodb_table
+        dynamodb_table    = aws_dynamodb_table.dynamodb_table.name
                 
       })
 }
