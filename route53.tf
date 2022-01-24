@@ -2,7 +2,7 @@ resource "aws_route53_zone" "zone_principal" {
   name     = "vault.local"
 
   vpc {
-    vpc_id = aws_vpc.vpc_replica.id
+    vpc_id = data.aws_vpc.vpc_selected.id
   }
 
   tags = {

@@ -1,6 +1,6 @@
 locals {
   user_data_vault = templatefile(
-    "./module/templates/user_data.tpl",
+    "./hashicorp-vault/templates/user_data.tpl",
     {
       cluster_vault = local.vault_name
   })

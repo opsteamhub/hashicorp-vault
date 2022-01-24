@@ -1,6 +1,6 @@
 locals {
   task_definition_vault = templatefile(
-    "./module/templates/task_definition_vault.json.tpl",
+    "./hashicorp-vault/templates/task_definition_vault.json.tpl",
     {
       #image_vault    = "${var.aws_account}.dkr.ecr.${var.region_principal}.amazonaws.com/vault:15"
       image_vault    = join(".", [var.aws_account, "dkr.ecr", var.region_principal, "amazonaws.com/vault:15"])
@@ -16,7 +16,7 @@ locals {
   })
 
   task_definition_vault_replica = templatefile(
-    "./module/templates/task_definition_vault.json.tpl",
+    "./hashicorp-vault/templates/task_definition_vault.json.tpl",
     {
       #image_vault    = "${var.aws_account}.dkr.ecr.${var.region_replica}.amazonaws.com/vault:15"
       image_vault    = join(".", [var.aws_account, "dkr.ecr", var.region_replica, "amazonaws.com/vault:15"])
