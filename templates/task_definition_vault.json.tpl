@@ -30,7 +30,15 @@
       {
         "name": "AWS_DYNAMODB_TABLE",
         "value": "${dynamodb_table}"
-      }                                         
+      },
+      {
+        "name": "AWS_DEFAULT_REGION",
+        "value": "${region}"
+      },
+      {
+        "name": "AWS_REGION",
+        "value": "${region}"
+      }                                                         
     ],
     "portMappings": [
         {

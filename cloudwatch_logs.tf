@@ -3,9 +3,22 @@ resource "aws_cloudwatch_log_group" "main" {
   retention_in_days = 1
 
   tags = {
-    Name           = local.log_name
-    ProvisionedBy  = local.provisioner
-    Squad          = local.squad
-    Service        = local.service
+    Name          = local.log_name
+    ProvisionedBy = local.provisioner
+    Squad         = local.squad
+    Service       = local.service
+  }
+}
+
+resource "aws_cloudwatch_log_group" "main_replica" {
+  provider          = aws.replica
+  name              = local.log_name
+  retention_in_days = 1
+
+  tags = {
+    Name          = local.log_name
+    ProvisionedBy = local.provisioner
+    Squad         = local.squad
+    Service       = local.service
   }
 }
