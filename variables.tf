@@ -1,137 +1,160 @@
 variable "aws_account" {
-    type        = string
-    description = "AWS Account"
+  type        = string
+  description = "AWS Account"
+  default     = ""
 }
 
 variable "project_name" {
-    type        = string
-    description = "Project Name"
+  type        = string
+  description = "Project Name"
 }
+
+variable "cert_domain_principal" {
+  type        = string
+  description = "acm domain name"
+}
+
+variable "cert_domain_replica" {
+  type        = string
+  description = "acm domain name"
+}
+
 variable "instance_type_vault" {
-    type        = string
-    description = "ec2 instance type"
-    default     = "t3.medium"
+  type        = string
+  description = "ec2 instance type"
+  default     = "t3.medium"
 }
-variable "region" {
-    type        = string
-    description = "AWS Region"
+variable "region_principal" {
+  type        = string
+  description = "AWS Region"
+  default     = ""
+}
+
+variable "region_replica" {
+  type        = string
+  description = "AWS Region Replica"
+  default     = ""
 }
 
 variable "image_vault" {
-    type        = string
-    description = "Image docker vault"
-    default     = ""
+  type        = string
+  description = "Image docker vault"
+  default     = ""
 }
 
 variable "awslogs_group" {
-    type        = string
-    description = "AWS Logs Groups"
-    default     = ""
+  type        = string
+  description = "AWS Logs Groups"
+  default     = ""
 }
 
-variable "environment" {
-    type        = string
-    description = "environment"
-    default     = ""
+variable "vpc_tag" {
+  type        = string
+  description = "vpc_tag"
 }
+
 variable "disable_mlock" {
-    type        = string
-    description = "VAULT_DISABLE_MLOCK"
-    default     = "true"
+  type        = string
+  description = "VAULT_DISABLE_MLOCK"
+  default     = "true"
 }
 
 variable "kms_id" {
-    type        = string
-    description = "VAULT_AWSKMS_SEAL_KEY_ID"
-    default     = ""
+  type        = string
+  description = "VAULT_AWSKMS_SEAL_KEY_ID"
+  default     = ""
 }
 variable "seal_type" {
-    type        = string
-    description = "VAULT_SEAL_TYPE"
-    default     = "awskms"
+  type        = string
+  description = "VAULT_SEAL_TYPE"
+  default     = "awskms"
 }
 
-variable "certificate" {
-    type        = string
-    description = "Certificate Anima"
-    default     = ""
+variable "arn_certificate" {
+  type        = string
+  description = "arn_certificate Anima"
+  default     = ""
 }
 
 variable "zone_id" {
-    type        = string
-    description = "zone_id anima.com.br"
-    default     = ""
+  type        = string
+  description = "zone_id anima.com.br"
+  default     = ""
 }
 
 variable "dns_record" {
-    type        = string
-    description = "DNS Record"
-    default     = ""
+  type        = string
+  description = "DNS Record"
+  default     = ""
 }
 
-variable "private_lb" {
-    type        = bool
-    description = "LB internal facing"
-    default     = true
+variable "private_vault" {
+  type        = bool
+  description = "LB internal facing"
+  default     = true
 }
 
-variable "subnet_tag_priv" {
-    type        = string
-    description = "Tag Subnet Privada"
-    default     = ""
+variable "private_subnet" {
+  type        = string
+  description = "Tag Subnet Privada"
 }
 
-variable "subnet_tag_pub" {
-    type        = string
-    description = "Tag Subnet Publica"
-    default     = ""
+variable "public_subnet" {
+  type        = string
+  description = "Tag Subnet Publica"
 }
 
 variable "cpu" {
-    type        = number
-    description = "CPU task"
-    default     = 1
+  type        = number
+  description = "CPU task"
+  default     = 1
 }
 
 variable "memory" {
-    type        = number
-    description = "Memory task"
-    default     = 2048
+  type        = number
+  description = "Memory task"
+  default     = 2048
 }
 
 variable "squad" {
-    type        = string
-    description = "Tag Squad"
-    default     = "untagged"
+  type        = string
+  description = "Tag Squad"
+  default     = "untagged"
 }
 
 variable "desired_capacity" {
-    type        = number
-    description = "Desired Capacity AutoScaling Group"
-    default     = 1
+  type        = number
+  description = "Desired Capacity AutoScaling Group"
+  default     = 1
 }
 
 variable "min_size" {
-    type        = number
-    description = "Min Size AutoScaling Group"
-    default     = 1
+  type        = number
+  description = "Min Size AutoScaling Group"
+  default     = 1
 }
 
 variable "max_size" {
-    type        = number
-    description = "Min Size AutoScaling Group"
-    default     = 2
+  type        = number
+  description = "Min Size AutoScaling Group"
+  default     = 2
 }
 
 variable "desired_task_count" {
-    type        = number
-    description = "Desired Task ECS Service"
-    default     = 1
-}
-variable "dynamodb_table" {
-    type        = string
-    description = "Dynamodb Table"
-    default     = ""
+  type        = number
+  description = "Desired Task ECS Service"
+  default     = 1
 }
 
+variable "dynamodb_table" {
+  type        = string
+  description = "Dynamodb Table"
+  default     = ""
+}
+
+variable "provisioner" {
+  type        = string
+  description = "Provisioner by Terraform"
+  default     = "Terraform"
+}
 
