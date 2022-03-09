@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "zone_principal" {
-  name     = "vault.local"
+  name = "vault.local"
 
   vpc {
     vpc_id = data.aws_vpc.vpc_selected.id
@@ -14,11 +14,11 @@ resource "aws_route53_zone" "zone_principal" {
 }
 
 resource "aws_route53_record" "vault_principal" {
-  zone_id  = aws_route53_zone.zone_principal.zone_id
-  name     = "vault"
-  type     = "CNAME"
-  ttl      = "30"
-  records  = [aws_lb.elb_vault.dns_name]
+  zone_id = aws_route53_zone.zone_principal.zone_id
+  name    = "vault"
+  type    = "CNAME"
+  ttl     = "30"
+  records = [aws_lb.elb_vault.dns_name]
 }
 
 ###
