@@ -24,7 +24,7 @@ data "aws_subnet_ids" "private" {
 resource "aws_subnet" "pub_subnet_a_principal" {
   count                   = var.create_vpc ? 1 : 0
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = "192.168.1.0/24"
+  cidr_block              = "172.27.18.0/26"
   map_public_ip_on_launch = true
   availability_zone       = "${var.region}a"
 
@@ -40,7 +40,7 @@ resource "aws_subnet" "pub_subnet_a_principal" {
 resource "aws_subnet" "pub_subnet_b_principal" {
   count                   = var.create_vpc ? 1 : 0
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = "192.168.2.0/24"
+  cidr_block              = "172.27.18.64/26"
   map_public_ip_on_launch = true
   availability_zone       = "${var.region}b"
 
@@ -56,7 +56,7 @@ resource "aws_subnet" "pub_subnet_b_principal" {
 resource "aws_subnet" "pri_subnet_a_principal" {
   count                   = var.create_vpc ? 1 : 0
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = "192.168.3.0/24"
+  cidr_block              = "172.27.18.128/26"
   map_public_ip_on_launch = false
   availability_zone       = "${var.region}a"
 
@@ -72,7 +72,7 @@ resource "aws_subnet" "pri_subnet_a_principal" {
 resource "aws_subnet" "pri_subnet_b_principal" {
   count                   = var.create_vpc ? 1 : 0
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = "10.0.4.0/24"
+  cidr_block              = "172.27.18.192/26"
   map_public_ip_on_launch = false
   availability_zone       = "${var.region}b"
 
@@ -92,7 +92,7 @@ resource "aws_subnet" "pri_subnet_b_principal" {
 resource "aws_subnet" "pub_subnet_a_replica" {
   provider                = aws.replica
   vpc_id                  = aws_vpc.vpc_replica.id
-  cidr_block              = "10.0.1.0/24"
+  cidr_block              = "10.10.20.0/26"
   map_public_ip_on_launch = true
   availability_zone       = "${var.region_replica}a"
 
@@ -107,7 +107,7 @@ resource "aws_subnet" "pub_subnet_a_replica" {
 resource "aws_subnet" "pub_subnet_b_replica" {
   provider                = aws.replica
   vpc_id                  = aws_vpc.vpc_replica.id
-  cidr_block              = "10.0.2.0/24"
+  cidr_block              = "10.10.20.64/26"
   map_public_ip_on_launch = true
   availability_zone       = "${var.region_replica}b"
 
@@ -122,7 +122,7 @@ resource "aws_subnet" "pub_subnet_b_replica" {
 resource "aws_subnet" "pri_subnet_a_replica" {
   provider                = aws.replica
   vpc_id                  = aws_vpc.vpc_replica.id
-  cidr_block              = "10.0.3.0/24"
+  cidr_block              = "10.10.20.128/26"
   map_public_ip_on_launch = false
   availability_zone       = "${var.region_replica}a"
 
@@ -137,7 +137,7 @@ resource "aws_subnet" "pri_subnet_a_replica" {
 resource "aws_subnet" "pri_subnet_b_replica" {
   provider                = aws.replica
   vpc_id                  = aws_vpc.vpc_replica.id
-  cidr_block              = "10.0.4.0/24"
+  cidr_block              = "10.10.20.192/26"
   map_public_ip_on_launch = false
   availability_zone       = "${var.region_replica}b"
 
