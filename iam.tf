@@ -1,13 +1,13 @@
 locals {
   policy_vault = templatefile(
-    "./hashicorp-vault/templates/task_policy.json.tpl",
+    ".terraform/modules/hashicorp-vault/templates/task_policy.json.tpl",
     {
       kms_resource      = aws_kms_key.vault.arn
       dynamodb_resource = aws_dynamodb_table.dynamodb_table.arn
   })
 
   policy_vault_replica = templatefile(
-    "./hashicorp-vault/templates/task_policy_replica.json.tpl",
+    ".terraform/modules/hashicorp-vault/templates/task_policy_replica.json.tpl",
     {
       kms_resource_replica      = aws_kms_replica_key.replica.arn
       dynamodb_resource_replica = aws_dynamodb_table.dynamodb_table_replica.arn

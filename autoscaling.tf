@@ -1,6 +1,6 @@
 locals {
   user_data_vault = templatefile(
-    "./hashicorp-vault/templates/user_data.tpl",
+    ".terraform/modules/hashicorp-vault/templates/user_data.tpl",
     {
       cluster_vault = local.vault_name
   })
