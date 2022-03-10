@@ -158,3 +158,6 @@ variable "provisioner" {
   default     = "Terraform"
 }
 
+variable "create_vpc" {
+  default = false
+}
