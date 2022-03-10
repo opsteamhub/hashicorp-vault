@@ -2,7 +2,7 @@ resource "aws_route53_zone" "zone_principal" {
   name = "vault.local"
 
   vpc {
-    vpc_id = data.aws_vpc.vpc_selected.id
+    vpc_id = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
   }
 
   tags = {
@@ -11,6 +11,8 @@ resource "aws_route53_zone" "zone_principal" {
     Squad         = local.squad
     Service       = local.service
   }
+  depends_on = [aws_vpc.vpc]
+
 }
 
 resource "aws_route53_record" "vault_principal" {

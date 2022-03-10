@@ -1,6 +1,6 @@
 resource "aws_internet_gateway" "internet_gateway_principal" {
   count  = var.create_vpc ? 1 : 0
-  vpc_id = aws_vpc.vpc.id
+  vpc_id = aws_vpc.vpc[0].id
 
   tags = {
     Name          = join("-", ["ig", local.vault_name])

@@ -48,10 +48,10 @@ variable "awslogs_group" {
   default     = ""
 }
 
-variable "vpc_tag" {
-  type        = string
-  description = "vpc_tag"
-}
+#variable "vpc_tag" {
+#  type        = string
+#  description = "vpc_tag"
+#}
 
 variable "disable_mlock" {
   type        = string
@@ -92,16 +92,6 @@ variable "private_vault" {
   type        = bool
   description = "LB internal facing"
   default     = true
-}
-
-variable "private_subnet" {
-  type        = string
-  description = "Tag Subnet Privada"
-}
-
-variable "public_subnet" {
-  type        = string
-  description = "Tag Subnet Publica"
 }
 
 variable "cpu" {
@@ -159,5 +149,16 @@ variable "provisioner" {
 }
 
 variable "create_vpc" {
-  default = false
+}
+
+variable "vpc_id" {
+  default = null
+}
+
+variable "subnet_public_id" {
+  default = []
+}
+
+variable "subnet_private_id" {
+  default = []
 }

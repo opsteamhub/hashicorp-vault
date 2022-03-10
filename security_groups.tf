@@ -1,5 +1,5 @@
 resource "aws_security_group" "ecs_sg" {
-  vpc_id      = data.aws_vpc.vpc_selected.id
+  vpc_id      = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
   name        = join("-", ["SG", local.vault_name])
   description = "Security Group Vault"
 
@@ -24,6 +24,7 @@ resource "aws_security_group" "ecs_sg" {
     "Squad"         = local.squad
     "Service"       = local.service
   }
+  depends_on = [aws_vpc.vpc]
 }
 
 ###
