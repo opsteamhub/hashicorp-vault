@@ -2,7 +2,7 @@ resource "aws_lb_target_group" "tg_vault" {
   name     = join("-", ["tg", local.vault_name])
   port     = 8200
   protocol = "TCP"
-  vpc_id   = data.aws_vpc.vpc_selected.id
+  vpc_id   = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
 
   health_check {
     port     = 8200
@@ -15,13 +15,14 @@ resource "aws_lb_target_group" "tg_vault" {
     Squad         = local.squad
     Service       = local.service
   }
+  depends_on = [aws_vpc.vpc]
 }
 
 resource "aws_lb" "elb_vault" {
   name               = join("-", ["lb", local.vault_name])
   internal           = var.private_vault
   load_balancer_type = "network"
-  subnets            = data.aws_subnet_ids.public.ids
+  subnets            = var.subnet_public_id 
 
   enable_deletion_protection = false
 
@@ -31,6 +32,7 @@ resource "aws_lb" "elb_vault" {
     Squad         = local.squad
     Service       = local.service
   }
+  depends_on = [aws_vpc.vpc]
 }
 
 resource "aws_lb_listener" "listener_vault" {

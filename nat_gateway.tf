@@ -1,7 +1,7 @@
 resource "aws_nat_gateway" "nat_gateway_pub_a_principal" {
   count         = var.create_vpc ? 1 : 0
-  allocation_id = aws_eip.eip_principal.id
-  subnet_id     = aws_subnet.pub_subnet_a_principal.id
+  allocation_id = aws_eip.eip_principal[0].id
+  subnet_id     = aws_subnet.pub_subnet_a_principal[0].id
 
   tags = {
     Name          = join("-", ["ng", local.vault_name])

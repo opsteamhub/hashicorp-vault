@@ -54,7 +54,7 @@ resource "aws_launch_configuration" "ecs_launch_config_vault" {
 
 resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
   name                 = join("-", ["asg", local.vault_name])
-  vpc_zone_identifier  = data.aws_subnet_ids.private.ids
+  vpc_zone_identifier  =  var.subnet_private_id 
   launch_configuration = aws_launch_configuration.ecs_launch_config_vault.name
   target_group_arns    = [aws_lb_target_group.tg_vault.arn]
   health_check_type    = "ELB"
@@ -87,7 +87,7 @@ resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
     value               = local.service
     propagate_at_launch = true
   }
-
+  depends_on = [aws_vpc.vpc]
 }
 
 ####

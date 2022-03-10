@@ -9,7 +9,6 @@ resource "aws_vpc" "vpc" {
     "ProvisionedBy" = local.provisioner
     "Squad"         = local.squad
     "Service"       = local.service
-    "vpc_tag"       = var.vpc_tag
   }
 }
 
