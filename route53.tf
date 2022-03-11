@@ -2,7 +2,8 @@ resource "aws_route53_zone" "zone_principal" {
   name = "vault.local"
 
   vpc {
-    vpc_id = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
+    vpc_id     = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
+    vpc_region = var.region_principal
   }
 
   tags = {
@@ -31,7 +32,8 @@ resource "aws_route53_zone" "zone_replica" {
   name     = "vault.local"
 
   vpc {
-    vpc_id = aws_vpc.vpc_replica[0].id
+    vpc_id     = aws_vpc.vpc_replica[0].id
+    vpc_region = var.region_replica
   }
 
   tags = {
@@ -49,5 +51,5 @@ resource "aws_route53_record" "vault_replica" {
   name     = "vault-replica"
   type     = "CNAME"
   ttl      = "30"
-  records  = [ aws_lb.elb_vault_replica[0].dns_name ]
+  records  = [aws_lb.elb_vault_replica[0].dns_name]
 }
