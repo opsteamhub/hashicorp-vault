@@ -54,7 +54,7 @@ resource "aws_launch_configuration" "ecs_launch_config_vault" {
 
 resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
   name                 = join("-", ["asg", local.vault_name])
-  vpc_zone_identifier  =  var.subnet_private_id 
+  vpc_zone_identifier  =  [aws_subnet.pub_subnet_a_principal[0].id, aws_subnet.pub_subnet_b_principal[0].id]
   launch_configuration = aws_launch_configuration.ecs_launch_config_vault.name
   target_group_arns    = [aws_lb_target_group.tg_vault.arn]
   health_check_type    = "ELB"
@@ -87,17 +87,17 @@ resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
     value               = local.service
     propagate_at_launch = true
   }
-  depends_on = [aws_vpc.vpc]
 }
 
 ####
 
 resource "aws_launch_configuration" "ecs_launch_config_vault_replica" {
+  count                = var.create_replica ? 1 : 0
   provider             = aws.replica
   image_id             = data.aws_ami.amazon_linux_ecs_replica.id
   name_prefix          = join("-", ["lc", local.vault_name])
   iam_instance_profile = aws_iam_instance_profile.ecs_agent.name
-  security_groups      = [aws_security_group.ecs_sg_replica.id]
+  security_groups      = [aws_security_group.ecs_sg_replica[0].id]
   user_data            = local.user_data_vault
   instance_type        = var.instance_type_vault
 
@@ -107,11 +107,12 @@ resource "aws_launch_configuration" "ecs_launch_config_vault_replica" {
 }
 
 resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault_replica" {
+  count                = var.create_replica ? 1 : 0
   provider             = aws.replica
   name                 = join("-", ["asg", local.vault_name])
-  vpc_zone_identifier  = [aws_subnet.pri_subnet_a_replica.id, aws_subnet.pri_subnet_b_replica.id]
-  launch_configuration = aws_launch_configuration.ecs_launch_config_vault_replica.name
-  target_group_arns    = [aws_lb_target_group.tg_vault_replica.arn]
+  vpc_zone_identifier  = [aws_subnet.pri_subnet_a_replica[0].id, aws_subnet.pri_subnet_b_replica[0].id]
+  launch_configuration = aws_launch_configuration.ecs_launch_config_vault_replica[0].name
+  target_group_arns    = [aws_lb_target_group.tg_vault_replica[0].arn]
   health_check_type    = "ELB"
 
   desired_capacity          = var.desired_capacity

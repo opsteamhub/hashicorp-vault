@@ -13,6 +13,6 @@ provider "aws" {
 
 provider "aws" {
   alias  = "replica"
-  region = local.region_replica
+  region = var.create_replica == "true" ? local.region_replica : local.region_principal
 }
 

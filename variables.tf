@@ -17,6 +17,7 @@ variable "cert_domain_principal" {
 variable "cert_domain_replica" {
   type        = string
   description = "acm domain name"
+  default     = ""
 }
 
 variable "instance_type_vault" {
@@ -72,7 +73,7 @@ variable "seal_type" {
 
 variable "arn_certificate" {
   type        = string
-  description = "arn_certificate Anima"
+  description = "arn_certificate"
   default     = ""
 }
 
@@ -162,3 +163,9 @@ variable "subnet_public_id" {
 variable "subnet_private_id" {
   default = []
 }
+
+variable "create_replica" {
+  default = "false"
+}
+
+variable "vault_image" {}

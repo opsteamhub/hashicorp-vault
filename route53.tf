@@ -26,11 +26,12 @@ resource "aws_route53_record" "vault_principal" {
 ###
 
 resource "aws_route53_zone" "zone_replica" {
+  count    = var.create_replica ? 1 : 0
   provider = aws.replica
   name     = "vault.local"
 
   vpc {
-    vpc_id = aws_vpc.vpc_replica.id
+    vpc_id = aws_vpc.vpc_replica[0].id
   }
 
   tags = {
@@ -42,10 +43,11 @@ resource "aws_route53_zone" "zone_replica" {
 }
 
 resource "aws_route53_record" "vault_replica" {
+  count    = var.create_replica ? 1 : 0
   provider = aws.replica
-  zone_id  = aws_route53_zone.zone_replica.zone_id
+  zone_id  = aws_route53_zone.zone_replica[0].zone_id
   name     = "vault-replica"
   type     = "CNAME"
   ttl      = "30"
-  records  = [aws_lb.elb_vault_replica.dns_name]
+  records  = [ aws_lb.elb_vault_replica[0].dns_name ]
 }

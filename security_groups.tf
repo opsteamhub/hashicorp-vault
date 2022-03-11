@@ -30,8 +30,9 @@ resource "aws_security_group" "ecs_sg" {
 ###
 
 resource "aws_security_group" "ecs_sg_replica" {
+  count                   = var.create_replica ? 1 : 0
   provider    = aws.replica
-  vpc_id      = aws_vpc.vpc_replica.id
+  vpc_id      = aws_vpc.vpc_replica[0].id
   name        = join("-", ["SG", local.vault_name])
   description = "Security Group Vault"
 

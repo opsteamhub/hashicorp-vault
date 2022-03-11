@@ -13,6 +13,7 @@ resource "aws_eip" "eip_principal" {
 #####
 
 resource "aws_eip" "eip_replica" {
+  count    = var.create_replica ? 1 : 0
   provider = aws.replica
   vpc      = true
 

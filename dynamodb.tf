@@ -24,7 +24,10 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   }
 }
 
+####
+
 resource "aws_dynamodb_table" "dynamodb_table_replica" {
+  count            = var.create_replica ? 1 : 0
   provider         = aws.replica
   name             = local.vault_name
   stream_enabled   = true
@@ -52,6 +55,7 @@ resource "aws_dynamodb_table" "dynamodb_table_replica" {
 }
 
 resource "aws_dynamodb_global_table" "vault_replica" {
+  count      = var.create_replica ? 1 : 0
   depends_on = [
     aws_dynamodb_table.dynamodb_table_replica,
     aws_dynamodb_table.dynamodb_table
