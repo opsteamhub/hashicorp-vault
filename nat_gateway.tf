@@ -14,9 +14,10 @@ resource "aws_nat_gateway" "nat_gateway_pub_a_principal" {
 #####
 
 resource "aws_nat_gateway" "nat_gateway_pub_a_replica" {
+  count         = var.create_replica ? 1 : 0
   provider      = aws.replica
-  allocation_id = aws_eip.eip_replica.id
-  subnet_id     = aws_subnet.pub_subnet_a_replica.id
+  allocation_id = aws_eip.eip_replica[0].id
+  subnet_id     = aws_subnet.pub_subnet_a_replica[0].id
 
   tags = {
     Name          = join("-", ["ng", local.vault_name])

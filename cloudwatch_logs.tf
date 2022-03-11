@@ -10,7 +10,10 @@ resource "aws_cloudwatch_log_group" "main" {
   }
 }
 
+####
+
 resource "aws_cloudwatch_log_group" "main_replica" {
+  count             = var.create_replica ? 1 : 0
   provider          = aws.replica
   name              = local.log_name
   retention_in_days = 1

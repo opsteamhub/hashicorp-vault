@@ -16,13 +16,17 @@ resource "aws_kms_alias" "vault" {
   target_key_id = aws_kms_key.vault.key_id
 }
 
+####
+
 resource "aws_kms_alias" "vault_replica" {
+  count         = var.create_replica ? 1 : 0
   provider      = aws.replica
   name          = "alias/${local.vault_name}-vault-kms-unseal-key"
-  target_key_id = aws_kms_replica_key.replica.arn
+  target_key_id = aws_kms_replica_key.replica[0].arn
 }
 
 resource "aws_kms_replica_key" "replica" {
+  count                   = var.create_replica ? 1 : 0
   provider                = aws.replica
   description             = "Multi-Region replica key"
   deletion_window_in_days = 7
