@@ -15,7 +15,7 @@ resource "aws_vpc" "vpc" {
 resource "aws_vpc" "vpc_replica" {
   count                = var.create_replica ? 1 : 0
   provider             = aws.replica
-  cidr_block           = "10.20.10.0/24"
+  cidr_block           = "10.10.20.0/24"
   enable_dns_support   = true
   enable_dns_hostnames = true
 
