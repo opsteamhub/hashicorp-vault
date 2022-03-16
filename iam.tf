@@ -9,7 +9,7 @@ locals {
   policy_vault_replica = templatefile(
     ".terraform/modules/hashicorp-vault/templates/task_policy_replica.json.tpl",
     {
-      kms_resource_replica      = var.create_replica == "false" ? "Not" : aws_kms_replica_key.replica[0].id
+      kms_resource_replica      = var.create_replica == "false" ? "Not" : aws_kms_replica_key.replica[0].arn
       dynamodb_resource_replica = var.create_replica == "false" ? "Not" : aws_dynamodb_table.dynamodb_table_replica[0].arn
   })
 }
