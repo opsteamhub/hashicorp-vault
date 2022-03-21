@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "zone_principal" {
-  name = "vault.local"
+  name = "vault.principal"
 
   vpc {
     vpc_id     = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
@@ -7,7 +7,7 @@ resource "aws_route53_zone" "zone_principal" {
   }
 
   tags = {
-    Name          = "vault.local"
+    Name          = "vault.principal"
     ProvisionedBy = local.provisioner
     Squad         = local.squad
     Service       = local.service
@@ -29,7 +29,7 @@ resource "aws_route53_record" "vault_principal" {
 resource "aws_route53_zone" "zone_replica" {
   count    = var.create_replica ? 1 : 0
   provider = aws.replica
-  name     = "vault.local"
+  name     = "vault.replica"
 
   vpc {
     vpc_id     = aws_vpc.vpc_replica[0].id
@@ -37,7 +37,7 @@ resource "aws_route53_zone" "zone_replica" {
   }
 
   tags = {
-    Name          = "vault.local"
+    Name          = "vault.replica"
     ProvisionedBy = local.provisioner
     Squad         = local.squad
     Service       = local.service
