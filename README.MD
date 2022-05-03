@@ -41,14 +41,14 @@ module "hashicorp-vault" {
 routes_principal = [
            {
                cidr_block = "172.27.18.0/24",
-               transit_gateway_id = "tgw-00c36104a103b81b8"      
+               transit_gateway_id = "tgw-xxxxxxxxxxx"      
             }
 ]
 
 routes_replica = [
            {
                cidr_block = "172.27.18.0/24",
-               transit_gateway_id = "tgw-00c36104a103b81b8"      
+               transit_gateway_id = "tgw-xxxxxxxxxxx"      
             }
 ]    
 ```
