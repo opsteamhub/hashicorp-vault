@@ -7,6 +7,18 @@ resource "aws_route_table" "public_principal" {
     gateway_id = aws_internet_gateway.internet_gateway_principal[0].id
   }
 
+  dynamic "route" {
+    for_each = var.routes_principal
+    content {
+      cidr_block                = route.value.cidr_block
+      transit_gateway_id        = route.value.transit_gateway_id
+      vpc_peering_connection_id = route.value.vpc_peering_connection_id
+      network_interface_id      = route.value.network_interface_id
+      nat_gateway_id            = route.value.nat_gateway_id
+      gateway_id                = route.value.gateway_id
+    }
+  }
+
   tags = {
     Name          = join("-", ["route-pub", local.vault_name])
     ProvisionedBy = local.provisioner
@@ -35,6 +47,19 @@ resource "aws_route_table" "private_principal" {
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_nat_gateway.nat_gateway_pub_a_principal[0].id
+  }
+
+
+  dynamic "route" {
+    for_each = var.routes_principal
+    content {
+      cidr_block                = route.value.cidr_block
+      transit_gateway_id        = route.value.transit_gateway_id
+      vpc_peering_connection_id = route.value.vpc_peering_connection_id
+      network_interface_id      = route.value.network_interface_id
+      nat_gateway_id            = route.value.nat_gateway_id
+      gateway_id                = route.value.gateway_id
+    }
   }
 
   tags = {
@@ -71,6 +96,19 @@ resource "aws_route_table" "public_replica" {
     gateway_id = aws_internet_gateway.internet_gateway_replica[0].id
   }
 
+
+  dynamic "route" {
+    for_each = var.routes_replica
+    content {
+      cidr_block                = route.value.cidr_block
+      transit_gateway_id        = route.value.transit_gateway_id
+      vpc_peering_connection_id = route.value.vpc_peering_connection_id
+      network_interface_id      = route.value.network_interface_id
+      nat_gateway_id            = route.value.nat_gateway_id
+      gateway_id                = route.value.gateway_id
+    }
+  }
+
   tags = {
     Name          = join("-", ["route-pub", local.vault_name])
     ProvisionedBy = local.provisioner
@@ -102,6 +140,18 @@ resource "aws_route_table" "private_replica" {
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_nat_gateway.nat_gateway_pub_a_replica[0].id
+  }
+
+  dynamic "route" {
+    for_each = var.routes_replica
+    content {
+      cidr_block                = route.value.cidr_block
+      transit_gateway_id        = route.value.transit_gateway_id
+      vpc_peering_connection_id = route.value.vpc_peering_connection_id
+      network_interface_id      = route.value.network_interface_id
+      nat_gateway_id            = route.value.nat_gateway_id
+      gateway_id                = route.value.gateway_id
+    }
   }
 
   tags = {
