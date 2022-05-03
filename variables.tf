@@ -169,3 +169,27 @@ variable "create_replica" {
 }
 
 variable "vault_image" {}
+
+variable "routes_principal" {
+  type = list(object({
+    transit_gateway_id        = optional(string)
+    vpc_peering_connection_id = optional(string)
+    cidr_block                = optional(string)
+    gateway_id                = optional(string)
+    nat_gateway_id            = optional(string)
+    network_interface_id      = optional(string)
+  }))
+  default = []
+}
+
+variable "routes_replica" {
+  type = list(object({
+    transit_gateway_id        = optional(string)
+    vpc_peering_connection_id = optional(string)
+    cidr_block                = optional(string)
+    gateway_id                = optional(string)
+    nat_gateway_id            = optional(string)
+    network_interface_id      = optional(string)
+  }))
+  default = []
+}
