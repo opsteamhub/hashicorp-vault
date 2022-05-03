@@ -1,9 +1,7 @@
 #### Module Hashicorp Vault
 
 ###### main.tf
-```
-
-  
+```  
 variable "squad" {}
 variable "cert_domain_principal" {}
 variable "cert_domain_replica" {}
