@@ -145,6 +145,7 @@ variable "provisioner" {
 
 variable "create_vpc" {
   type = bool
+  default = true
 }
 
 variable "vpc_id" {

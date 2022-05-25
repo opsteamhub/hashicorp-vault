@@ -111,8 +111,8 @@ module "hashicorp-vault" {
 | <a name="private_vault"></a> [private_vault](#input\_private\_vault ) | Utilizado para definir se o ALB do Vault vai ser privado ou publico. | `bool` | `true` | no |
 | <a name="region_principal"></a> [region_principal](#input\_region\_principal) | Utilizado para definir a região principal que o Vault será provisionado. | `string` | `""` | yes |
 | <a name="region_replica"></a> [region_replica](#input\_region\_replica) | Utilizado para definir a região replica que o Vault será provisionado. | `string` | `""` | yes |
-| <a name="rcreate_vpc"></a> [create_vpc](#input\_create\_vpc) | Requerido se for não for utilizar alguma VPC existe na região principal aonde o Vault vai ser provisionado. | `bool` | `{}` | yes |
-| <a name="rcreate_replica"></a> [create_replica](#input\_create\_replica) | Utilizado para definir se irá criar uma replica da stack do vault em outra região. | `bool` | `true` | no |
+| <a name="create_vpc"></a> [create_vpc](#input\_create\_vpc) | Requerido se for não for utilizar alguma VPC existe na região principal aonde o Vault vai ser provisionado. | `bool` | `true` | no |
+| <a name="create_replica"></a> [create_replica](#input\_create\_replica) | Utilizado para definir se irá criar uma replica da stack do vault em outra região. | `bool` | `true` | no |
 
 
 ## Authors
