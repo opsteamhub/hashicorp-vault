@@ -1,0 +1,14 @@
+project_name          = "stack-name"
+aws_account           = "11111111111" #aws_account_id
+vault_image           = "vault-image:latest" #image ecr do vault
+squad                 = "cross" #tag name squad responsavel
+cert_domain_principal = "domain.com.br" #domain name certificado ACM
+cert_domain_replica   = "domain.com.br" #domain name certificado ACM
+private_vault         = "true" #definir true ou false se o alb vai ser privado ou publico
+region_principal      = "us-east-1" #definir a região principal para a stack ser provisionada
+region_replica        = "eu-west-1" #definir a região replica para a stack ser provisionada
+create_vpc            = "false" #definir true ou false, utilizado para criar uma vpc nova dedicada ao vault ou utilizar uma vpc existente
+create_replica        = "true" #definir true ou false, definido para criar uma replica em outra região
+vpc_id                = "vpc-xxxxxxx" #definir vpc id da vpc que será utilizada para provisionar o vault
+subnet_public_id      = ["subnet-xxxxx-a", "subnet-xxxxx-b"] #definir ids das subnets publicas que serão utilizadas
+subnet_private_id     = ["subnet-xxxxx-a", "subnet-xxxxx-b"] #definir ids das subnets privadas que serão configuradas
