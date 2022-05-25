@@ -114,8 +114,8 @@ module "hashicorp-vault" {
 | <a name="create_vpc"></a> [create_vpc](#input\_create\_vpc) | Requerido se for não for utilizar alguma VPC existe na região principal aonde o Vault vai ser provisionado. | `bool` | `true` | no |
 | <a name="create_replica"></a> [create_replica](#input\_create\_replica) | Utilizado para definir se irá criar uma replica da stack do vault em outra região. | `bool` | `true` | no |
 | <a name="vpc_id"></a> [vpc_id](#input\_vpc\_id) | Utilizado se for utilizar uma VPC já existente quando é definido `false` na variavel `create_replica`. | `string` | `""` | no |
-| <a name="create_replica"></a> [create_replica](#input\_create\_replica) | Utilizado para definir se irá criar uma replica da stack do vault em outra região. | `bool` | `true` | no |
-| <a name="create_replica"></a> [create_replica](#input\_create\_replica) | Utilizado para definir se irá criar uma replica da stack do vault em outra região. | `bool` | `true` | no |
+| <a name="subnet_public_id "></a> [subnet_public_id ](#input\_subnet\_public\_id ) | Utilizado se for utilizar uma subnet já existente quando é definido `false` na variavel  `create_replica`. | `string` | `""` | no |
+| <a name="subnet_private_id"></a> [subnet_private_id](#input\_subnet\_private\_id) | Utilizado se for utilizar uma subnet já existente quando é definido `false` na variavel `create_replica`. | `bool` | `true` | no |
 
 
 ## Authors
