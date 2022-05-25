@@ -71,12 +71,6 @@ variable "seal_type" {
   default     = "awskms"
 }
 
-variable "arn_certificate" {
-  type        = string
-  description = "arn_certificate"
-  default     = ""
-}
-
 variable "zone_id" {
   type        = string
   description = "zone_id anima.com.br"
