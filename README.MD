@@ -1,4 +1,4 @@
-#### Module Hashicorp Vault
+## Module Hashicorp Vault
 
 Módulo Terraform para provisionar o Hashicorp Vault na AWS utilizando Terraform. 
 O módulo irá provisionar o Vault em cluster ECS e utilizarar como backend o DynamoDB.
@@ -46,7 +46,7 @@ module "hashicorp-vault" {
 ```
 ## Examples
 
-- [Single Cluster](.examples/single-cluster)
+- [Single Cluster](./examples/single-cluster)
 - [Replica Cluster](./examples/replica)
 - [Route](./examples/route) 
 - [No create VPC](./examples/not-create-vpc)
