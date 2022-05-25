@@ -96,3 +96,7 @@ module "hashicorp-vault" {
 | [aws_subnet](./subnets.tf) | resource |
 | [aws_ecs_task_definition](./task_definition.tf) | resource |
 | [aws_vpc](./vpc.tf) | resource |
+
+## Authors
+
+Module is maintained by [Rafael Vinícius](https://github.com/faelviniius) with help from [these awesome from Opsteam](https://ops.team/).
