@@ -8,9 +8,9 @@ Pré requisitos para provisionar o cluster ECS do Vault.
 - Certificado válido no certificate manager da AWS, se for provisionar a replica, deverá ter o certificado disponivel nas duas regiões.
 - Image no Vault no ECR realizando o build do seguinte projeto https://github.com/opsteamhub/vault-image-dynamodb
 
-##### Para provisionar a Stack, basta seguir o exemplo abaixo. Para mais exemplos verificar no diretório examples
 
-###### main.tf
+## Usage
+
 ```  
 variable "squad" {}
 variable "cert_domain_principal" {}
@@ -44,21 +44,10 @@ module "hashicorp-vault" {
   routes_replica        = var.routes_replica
 }
 ```
+## Examples
 
-###### Dynamic Routes
-```
-routes_principal = [
-           {
-               cidr_block = "172.27.18.0/24",
-               transit_gateway_id = "tgw-xxxxxxxxxxx"      
-            }
-]
-
-routes_replica = [
-           {
-               cidr_block = "172.27.18.0/24",
-               transit_gateway_id = "tgw-xxxxxxxxxxx"      
-            }
-]    
-```
+- [Single Cluster](./single-cluster)
+- [Replica Cluster](./replica)
+- [Route](./route) 
+- [No create VPC](./not-create-vpc)
 
