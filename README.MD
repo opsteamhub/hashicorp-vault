@@ -4,6 +4,11 @@ Módulo Terraform para provisionar o Hashicorp Vault na AWS utilizando Terraform
 O módulo irá provisionar o Vault em cluster ECS e utilizarar como backend o DynamoDB.
 A infra estrutura será provisionada em paralelo duas Regiões, para que seja mantida uma replica para Disaster Recovery.
 
+## Architecture
+
+![plot](./docs/hashicorp-vault.png)
+
+## Prerequisite
 Pré requisitos para provisionar o cluster ECS do Vault.
 - Certificado válido no certificate manager da AWS, se for provisionar a replica, deverá ter o certificado disponivel nas duas regiões.
 - Image no Vault no ECR realizando o build do seguinte projeto https://github.com/opsteamhub/vault-image-dynamodb
@@ -100,9 +105,7 @@ module "hashicorp-vault" {
 | <a name="subnet_private_id"></a> [subnet_private_id](#input\_subnet\_private\_id) | Utilizado se for utilizar uma subnet já existente quando é definido `false` na variavel `create_replica`. | `string` | `""` | no |
 | <a name="routes"></a> [routes](#input\_routes) | Utilizado para definir uma rota quando a vpc do vault precisa se comunicar com alguma outra vpc. | `list(object)` | `[]` | no |
 
-## Architecture
 
-![plot](./docs/hashicorp-vault.png)
 
 ## Authors
 
