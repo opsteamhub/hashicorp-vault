@@ -113,6 +113,9 @@ module "hashicorp-vault" {
 | <a name="region_replica"></a> [region_replica](#input\_region\_replica) | Utilizado para definir a região replica que o Vault será provisionado. | `string` | `""` | yes |
 | <a name="create_vpc"></a> [create_vpc](#input\_create\_vpc) | Requerido se for não for utilizar alguma VPC existe na região principal aonde o Vault vai ser provisionado. | `bool` | `true` | no |
 | <a name="create_replica"></a> [create_replica](#input\_create\_replica) | Utilizado para definir se irá criar uma replica da stack do vault em outra região. | `bool` | `true` | no |
+| <a name="vpc_id"></a> [vpc_id](#input\_vpc\_id) | Utilizado se for utilizar uma VPC já existente quando é definido `false` na variavel `create_replica`. | `string | `""` | no |
+| <a name="create_replica"></a> [create_replica](#input\_create\_replica) | Utilizado para definir se irá criar uma replica da stack do vault em outra região. | `bool` | `true` | no |
+| <a name="create_replica"></a> [create_replica](#input\_create\_replica) | Utilizado para definir se irá criar uma replica da stack do vault em outra região. | `bool` | `true` | no |
 
 
 ## Authors
