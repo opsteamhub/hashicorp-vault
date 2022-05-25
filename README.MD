@@ -38,6 +38,7 @@ module "hashicorp-vault" {
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.2.0 |
+| <a name="experiments"></a> [module_variable_optional_attrs](#\_module\_variable\_optional\_attrs) | `"module_variable_optional_attrs"` |
 
 ## Providers
 
