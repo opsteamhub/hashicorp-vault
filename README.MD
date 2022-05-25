@@ -8,7 +8,7 @@ A infra estrutura será provisionada em paralelo duas Regiões, para que seja ma
 
 ![plot](./docs/hashicorp-vault.png)
 
-## Prerequisite
+## Prerequisites
 Pré requisitos para provisionar o cluster ECS do Vault.
 - Certificado válido no certificate manager da AWS, se for provisionar a replica, deverá ter o certificado disponivel nas duas regiões.
 - Image no Vault no ECR realizando o build do seguinte projeto https://github.com/opsteamhub/vault-image-dynamodb
