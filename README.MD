@@ -46,8 +46,8 @@ module "hashicorp-vault" {
 ```
 ## Examples
 
-- [Single Cluster](./single-cluster)
-- [Replica Cluster](./replica)
-- [Route](./route) 
-- [No create VPC](./not-create-vpc)
+- [Single Cluster](.examples/single-cluster)
+- [Replica Cluster](./examples/replica)
+- [Route](./examples/route) 
+- [No create VPC](./examples/not-create-vpc)
 
