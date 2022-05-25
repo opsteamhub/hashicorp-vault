@@ -104,8 +104,8 @@ module "hashicorp-vault" {
 |------|-------------|------|---------|:--------:|
 | <a name="project_name"></a> [project\_name](#input\_project\_name) | Nome da stack do vault, será utilizado na criação dos resources. | `string` | `null` | yes |
 | <a name="aws_account"></a> [aws_account](#input\_aws\_account) | AWS Account ID, requirido para formar a URI da image ECR do Vault. | `string` | `""` | yes |
-| <a name="vault_image"></a> [aws_account](#input\_vault\_image) | Nome da imagem do vault hospedada no ECR. | `string` | `null` | yes |
-
+| <a name="vault_image"></a> [vault_image](#input\_vault\_image) | Nome da imagem do vault hospedada no ECR. | `string` | `"null"` | yes |
+| <a name="squad"></a> [squad](#input\_squad) | Tag squad, utilizado para definir squad responsável por manter o vault. | `string` | `"untagged"` | no |
 
 
 ## Authors
