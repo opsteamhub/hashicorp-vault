@@ -144,6 +144,7 @@ variable "provisioner" {
 }
 
 variable "create_vpc" {
+  type = bool
 }
 
 variable "vpc_id" {
@@ -159,7 +160,8 @@ variable "subnet_private_id" {
 }
 
 variable "create_replica" {
-  default = "false"
+  type = bool
+  default = true
 }
 
 variable "vault_image" {}
