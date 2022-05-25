@@ -12,31 +12,17 @@ Pré requisitos para provisionar o cluster ECS do Vault.
 ## Usage
 
 ```  
-variable "squad" {}
-variable "cert_domain_principal" {}
-variable "cert_domain_replica" {}
-variable "project_name" {}
-variable "region_principal" {}
-variable "region_replica" {}
-variable "private_vault" {}
-variable "aws_account" {}
-variable "vault_image" {}
-variable "routes_principal" {}
-variable "routes_replica" {}
-
 module "hashicorp-vault" {
   source = "github.com/opsteamhub/module-hashicorp-vault"
 
-  project_name          = var.project_name
-  aws_account           = var.aws_account
-  vault_image           = var.vault_image
-  squad                 = var.squad
-  cert_domain_principal = var.cert_domain_principal
-  cert_domain_replica   = var.cert_domain_replica
-  region_principal      = var.region_principal
-  region_replica        = var.region_replica
-  routes_principal      = var.routes_principal
-  routes_replica        = var.routes_replica
+  project_name          = "vault-name"
+  aws_account           = "1111111111"
+  vault_image           = "vault:latest"
+  squad                 = "Cross"
+  cert_domain_principal = "domain.com"
+  cert_domain_replica   = "domain.com"
+  region_principal      = "us-east-1"
+  region_replica        = "eu-west-1"
 }
 ```
 ## Examples
