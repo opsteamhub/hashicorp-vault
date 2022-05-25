@@ -99,4 +99,4 @@ module "hashicorp-vault" {
 
 ## Authors
 
-Module is maintained by [Rafael Vinícius](https://github.com/faelviniius) with help from [these awesome from Opsteam](https://ops.team/).
+Module is maintained by [Rafael Vinícius](https://github.com/faelvinicius) with help from [these awesome from Opsteam](https://ops.team/).
