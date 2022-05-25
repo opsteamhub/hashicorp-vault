@@ -100,6 +100,9 @@ module "hashicorp-vault" {
 | <a name="subnet_private_id"></a> [subnet_private_id](#input\_subnet\_private\_id) | Utilizado se for utilizar uma subnet já existente quando é definido `false` na variavel `create_replica`. | `string` | `""` | no |
 | <a name="routes"></a> [routes](#input\_routes) | Utilizado para definir uma rota quando a vpc do vault precisa se comunicar com alguma outra vpc. | `list(object)` | `[]` | no |
 
+## Architecture
+
+![plot](./docs/hashicorp-vault.png)
 
 ## Authors
 
