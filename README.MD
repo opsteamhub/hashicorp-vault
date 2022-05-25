@@ -56,3 +56,9 @@ module "hashicorp-vault" {
 | Name | Type |
 |------|------|
 | [aws_launch_configuration](./autoscaling.tf) | resource |
+| [aws_autoscaling_group](./autoscaling.tf) | resource |
+| [aws_cloudwatch_log_group](./cloudwatch_logs.tf) | resource |
+| [aws_dynamodb_table](./dynamodb.tf) | resource |
+| [aws_dynamodb_global_table](./dynamodb.tf) | resource |
+| [aws_ecs_service](./ecs_service.tf) | resource |
+| [aws_ecs_cluster](./ecs.tf_) | resource |
