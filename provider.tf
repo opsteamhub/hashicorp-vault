@@ -14,6 +14,7 @@ provider "aws" {
 provider "aws" {
   alias  = "replica"
   region = var.create_replica == true ? local.region_replica : local.region_principal
+  profile = "replica"
 }
 
 terraform {
