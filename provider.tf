@@ -8,12 +8,12 @@ terraform {
 }
 
 provider "aws" {
-  region = local.region_principal
+  region = var.region_principal
 }
 
 provider "aws" {
   alias  = "replica"
-  region = var.create_replica == true ? local.region_replica : local.region_principal
+  region = var.create_replica == true ? var.region_replica : var.region_principal
 
 }
 
