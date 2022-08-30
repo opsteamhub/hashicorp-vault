@@ -96,7 +96,7 @@ resource "aws_launch_configuration" "ecs_launch_config_vault_replica" {
   provider             = aws.replica
   image_id             = data.aws_ami.amazon_linux_ecs_replica.id
   name_prefix          = join("-", ["lc", local.vault_name])
-  iam_instance_profile = aws_iam_instance_profile.ecs_agent.name
+  iam_instance_profile = aws_iam_instance_profile.ecs_agent_replica.name
   security_groups      = [aws_security_group.ecs_sg_replica[0].id]
   user_data            = local.user_data_vault
   instance_type        = var.instance_type_vault
