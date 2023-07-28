@@ -1,10 +1,10 @@
-locals {
-  user_data_vault = base64encode(templatefile(
-    ".terraform/modules/hashicorp-vault/templates/user_data.tpl",
-    {
-      cluster_vault = local.vault_name
-  }))
-}
+#locals {
+#  user_data_vault = base64encode(templatefile(
+#    ".terraform/modules/hashicorp-vault/templates/user_data.tpl",
+#    {
+#      cluster_vault = local.vault_name
+#  }))
+#}
 
 data "aws_ami" "amazon_linux_ecs" {
   most_recent = true
@@ -76,7 +76,12 @@ resource "aws_launch_template" "vault" {
     }
   }
 
-  user_data = local.user_data_vault
+  user_data = base64encode(templatefile(
+    "${path.module}/templates/user_data.tpl",
+    {
+      cluster_vault = local.vault_name
+  }))
+}
 
   lifecycle {
     create_before_destroy = true
