@@ -2,7 +2,7 @@ locals {
   user_data_vault = filebase64(
     ".terraform/modules/hashicorp-vault/templates/user_data.tpl",
     {
-      cluster_vault = local.vault_name.rendered
+      cluster_vault = base64encode(local.vault_name)
   })
 }
 
