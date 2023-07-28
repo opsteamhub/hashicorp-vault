@@ -42,12 +42,7 @@ data "aws_ami" "amazon_linux_ecs_replica" {
 resource "aws_launch_template" "vault" {
   name_prefix          = join("-", ["lt", local.vault_name])
 
-  disable_api_stop        = true
   disable_api_termination = true
-
-  iam_instance_profile {
-    name = aws_iam_instance_profile.ecs_agent.name
-  }
 
   image_id = data.aws_ami.amazon_linux_ecs.id
 
@@ -56,6 +51,12 @@ resource "aws_launch_template" "vault" {
   instance_type = var.instance_type_vault
 
   key_name = var.key_name
+
+
+
+  iam_instance_profile {
+    name = aws_iam_instance_profile.ecs_agent.name
+  }
 
   monitoring {
     enabled = false
@@ -145,7 +146,7 @@ resource "aws_launch_configuration" "ecs_launch_config_vault_replica" {
   provider             = aws.replica
   image_id             = data.aws_ami.amazon_linux_ecs_replica.id
   name_prefix          = join("-", ["lc", local.vault_name])
-  iam_instance_profile = aws_iam_instance_profile.ecs_agent_replica.name
+  iam_instance_profile = aws_iam_instance_profile.ecs_agent_replica[0].name
   security_groups      = [aws_security_group.ecs_sg_replica[0].id]
   user_data            = local.user_data_vault
   instance_type        = var.instance_type_vault
