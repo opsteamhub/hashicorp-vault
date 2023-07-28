@@ -1,16 +1,9 @@
 locals {
-  user_data_vault = templatefile(
+  user_data_vault = filebase64(
     ".terraform/modules/hashicorp-vault/templates/user_data.tpl",
     {
-      cluster_vault = base64encode(local.vault_name)
+      cluster_vault = local.vault_name
   })
-}
-
-data "template_file" "vault" {
-  template = <<EOF
-    #!/bin/bash
-    echo ECS_CLUSTER="cluster-${local.vault_name}" > /etc/ecs/ecs.config
-  EOF
 }
 
 data "aws_ami" "amazon_linux_ecs" {
@@ -83,7 +76,7 @@ resource "aws_launch_template" "vault" {
     }
   }
 
-  user_data = "${data.template_file.vault.rendered}"
+  user_data = local.user_data_vault
 
   lifecycle {
     create_before_destroy = true
