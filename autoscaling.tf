@@ -109,7 +109,7 @@ resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
   health_check_grace_period = 300
 
   launch_template {
-    id      = aws_launch_template.replica.id
+    id      = aws_launch_template.vault.id
     version = "$Latest"
   }
 
