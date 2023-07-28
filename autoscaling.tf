@@ -9,7 +9,7 @@ locals {
 data "template_file" "vault" {
   template = <<EOF
     #!/bin/bash
-    echo ECS_CLUSTER="cluster-${cluster_vault}" > /etc/ecs/ecs.config
+    echo ECS_CLUSTER="cluster-${local.vault_name}" > /etc/ecs/ecs.config
   EOF
 }
 
