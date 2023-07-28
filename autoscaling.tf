@@ -83,12 +83,6 @@ resource "aws_launch_template" "vault" {
   }))
 }
 
-  lifecycle {
-    create_before_destroy = true
-  }
-
-}
-
 
 #resource "aws_launch_configuration" "ecs_launch_config_vault" {
 #  image_id             = data.aws_ami.amazon_linux_ecs.id
