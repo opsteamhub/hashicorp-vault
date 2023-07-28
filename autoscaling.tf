@@ -1,5 +1,5 @@
 locals {
-  user_data_vault = filebase64(templatefile(
+  user_data_vault = base64encode(templatefile(
     ".terraform/modules/hashicorp-vault/templates/user_data.tpl",
     {
       cluster_vault = local.vault_name
