@@ -11,8 +11,8 @@ locals {
     #!/bin/bash
 
     echo ECS_CLUSTER="cluster-${local.vault_name}" > /etc/ecs/ecs.config
-EOF
-)}"
+  EOF
+  )}"
 }
 
 
