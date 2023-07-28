@@ -6,6 +6,13 @@ locals {
   })
 }
 
+data "template_file" "vault" {
+  template = <<EOF
+    #!/bin/bash
+    echo ECS_CLUSTER="cluster-${cluster_vault}" > /etc/ecs/ecs.config
+  EOF
+}
+
 data "aws_ami" "amazon_linux_ecs" {
   most_recent = true
 
@@ -76,7 +83,7 @@ resource "aws_launch_template" "vault" {
     }
   }
 
-  user_data = local.user_data_vault
+  user_data = "${data.template_file.vault.rendered}"
 
   lifecycle {
     create_before_destroy = true
