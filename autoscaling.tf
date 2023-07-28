@@ -60,7 +60,7 @@ resource "aws_launch_template" "vault" {
     enabled = false
   }
 
-  #vpc_security_group_ids = [aws_security_group.ecs_sg.id]
+  vpc_security_group_ids = [aws_security_group.ecs_sg.id]
   security_group_names = [aws_security_group.ecs_sg.name]
 
   tag_specifications {
@@ -171,7 +171,7 @@ resource "aws_launch_template" "replica" {
     enabled = false
   }
 
-  #vpc_security_group_ids = [aws_security_group.ecs_sg_replica[0].id]
+  vpc_security_group_ids = [aws_security_group.ecs_sg_replica[0].id]
   security_group_names     = [aws_security_group.ecs_sg_replica[0].name]
 
   tag_specifications {
