@@ -76,10 +76,8 @@ resource "aws_launch_template" "vault" {
     }
   }
 
-  user_data = base64encode(templatefile(
-    "${path.module}/templates/user_data.tpl",
-    {
-      cluster_vault = var.project_name
+  user_data = base64encode(templatefile("${path.module}/templates/user_data.tpl", {
+    cluster_vault = local.vault_name
   }))
 }
 
@@ -170,8 +168,6 @@ resource "aws_launch_template" "replica" {
 
   key_name = var.key_name
 
-
-
   iam_instance_profile {
     name = aws_iam_instance_profile.ecs_agent_replica[0].name
   }
@@ -194,10 +190,8 @@ resource "aws_launch_template" "replica" {
     }
   }
 
-  user_data = base64encode(templatefile(
-    "${path.module}/templates/user_data.tpl",
-    {
-      cluster_vault = var.project_name
+  user_data = base64encode(templatefile("${path.module}/templates/user_data.tpl", {
+    cluster_vault = var.project_name
   }))
 }
 
