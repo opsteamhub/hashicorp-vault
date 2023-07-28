@@ -1,10 +1,20 @@
+#locals {
+#  user_data_vault = filebase64(
+#    ".terraform/modules/hashicorp-vault/templates/user_data.tpl",
+#    {
+#      cluster_vault = encodebase64(local.vault_name)
+#  })
+#}
+
 locals {
-  user_data_vault = filebase64(
-    ".terraform/modules/hashicorp-vault/templates/user_data.tpl",
-    {
-      cluster_vault = encodebase64(local.vault_name)
-  })
+  user_data_vault = "${base64encode(<<EOF
+    #!/bin/bash
+
+    echo ECS_CLUSTER="cluster-${local.vault_name}" > /etc/ecs/ecs.config
+EOF
+)}"
 }
+
 
 data "aws_ami" "amazon_linux_ecs" {
   most_recent = true
