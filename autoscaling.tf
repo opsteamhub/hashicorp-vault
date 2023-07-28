@@ -77,7 +77,7 @@ resource "aws_launch_template" "vault" {
   }
 
   user_data = base64encode(templatefile(
-    ".terraform/modules/hashicorp-vault/templates/user_data.tpl",
+    "${path.module}/templates/user_data.tpl",
     {
       cluster_vault = var.project_name
   }))
@@ -109,7 +109,7 @@ resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
   health_check_grace_period = 300
 
   launch_template {
-    id      = aws_launch_template.vault.id
+    id      = aws_launch_template.replica.id
     version = "$Latest"
   }
 
@@ -195,7 +195,7 @@ resource "aws_launch_template" "replica" {
   }
 
   user_data = base64encode(templatefile(
-    ".terraform/modules/hashicorp-vault/templates/user_data.tpl",
+    "${path.module}/templates/user_data.tpl",
     {
       cluster_vault = var.project_name
   }))
