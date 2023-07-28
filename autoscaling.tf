@@ -64,7 +64,8 @@ resource "aws_launch_template" "vault" {
     associate_public_ip_address = false
   }
 
-  vpc_security_group_ids = [aws_security_group.ecs_sg.id]
+  #vpc_security_group_ids = [aws_security_group.ecs_sg.id]
+  security_groups = [aws_security_group.ecs_sg.id]
 
   tag_specifications {
     resource_type = "instance"
@@ -178,7 +179,8 @@ resource "aws_launch_template" "replica" {
     associate_public_ip_address = false
   }
 
-  vpc_security_group_ids = [aws_security_group.ecs_sg_replica[0].id]
+  #vpc_security_group_ids = [aws_security_group.ecs_sg_replica[0].id]
+  security_groups      = [aws_security_group.ecs_sg_replica[0].id]
 
   tag_specifications {
     resource_type = "instance"
