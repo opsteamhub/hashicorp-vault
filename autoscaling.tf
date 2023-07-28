@@ -39,30 +39,79 @@ data "aws_ami" "amazon_linux_ecs_replica" {
   }
 }
 
-resource "aws_launch_configuration" "ecs_launch_config_vault" {
-  image_id             = data.aws_ami.amazon_linux_ecs.id
-  name_prefix          = join("-", ["lc", local.vault_name])
-  iam_instance_profile = aws_iam_instance_profile.ecs_agent.name
-  security_groups      = [aws_security_group.ecs_sg.id]
-  user_data            = local.user_data_vault
-  instance_type        = var.instance_type_vault
+resource "aws_launch_template" "vault" {
+  name_prefix          = join("-", ["lt", local.vault_name])
+
+  disable_api_stop        = true
+  disable_api_termination = true
+
+  iam_instance_profile {
+    name = aws_iam_instance_profile.ecs_agent.name
+  }
+
+  image_id = data.aws_ami.amazon_linux_ecs.id
+
+  instance_initiated_shutdown_behavior = "terminate"
+
+  instance_type = var.instance_type_vault
+
+  key_name = "opsteamvault"
+
+  monitoring {
+    enabled = false
+  }
+
+  network_interfaces {
+    associate_public_ip_address = false
+  }
+
+  vpc_security_group_ids = [aws_security_group.ecs_sg.id]
+
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = {
+      Name = join("-", ["lt", local.vault_name])
+    }
+  }
+
+  user_data = local.user_data_vault
 
   lifecycle {
     create_before_destroy = true
   }
+
 }
+
+
+#resource "aws_launch_configuration" "ecs_launch_config_vault" {
+#  image_id             = data.aws_ami.amazon_linux_ecs.id
+#  name_prefix          = join("-", ["lc", local.vault_name])
+#  iam_instance_profile = aws_iam_instance_profile.ecs_agent.name
+#  security_groups      = [aws_security_group.ecs_sg.id]
+#  user_data            = local.user_data_vault
+#  instance_type        = var.instance_type_vault
+#
+#  lifecycle {
+#    create_before_destroy = true
+#  }
+#}
 
 resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
   name                 = join("-", ["asg", local.vault_name])
   vpc_zone_identifier  = [aws_subnet.pri_subnet_a_principal[0].id, aws_subnet.pri_subnet_b_principal[0].id]
-  launch_configuration = aws_launch_configuration.ecs_launch_config_vault.name
+  #launch_configuration = aws_launch_configuration.ecs_launch_config_vault.name
   target_group_arns    = [aws_lb_target_group.tg_vault.arn]
   health_check_type    = "ELB"
-
   desired_capacity          = var.desired_capacity
   min_size                  = var.min_size
   max_size                  = var.max_size
   health_check_grace_period = 300
+
+  launch_template {
+    id      = aws_launch_template.vault.id
+    version = "$Latest"
+  }
 
   tag {
     key                 = "Name"
