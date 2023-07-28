@@ -190,3 +190,7 @@ variable "routes_replica" {
   }))
   default = []
 }
+
+variable "key_name" {
+  default = ""
+}

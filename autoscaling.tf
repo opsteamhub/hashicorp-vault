@@ -55,7 +55,7 @@ resource "aws_launch_template" "vault" {
 
   instance_type = var.instance_type_vault
 
-  key_name = "opsteamvault"
+  key_name = var.key_name
 
   monitoring {
     enabled = false
