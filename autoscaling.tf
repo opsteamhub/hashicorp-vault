@@ -2,7 +2,7 @@ locals {
   user_data_vault = filebase64(
     ".terraform/modules/hashicorp-vault/templates/user_data.tpl",
     {
-      cluster_vault = local.vault_name
+      cluster_vault = local.vault_name.rendered
   })
 }
 
@@ -76,7 +76,7 @@ resource "aws_launch_template" "vault" {
     }
   }
 
-  user_data = local.user_data_vault.rendered
+  user_data = local.user_data_vault
 
   lifecycle {
     create_before_destroy = true
