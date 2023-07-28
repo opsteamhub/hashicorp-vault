@@ -76,7 +76,7 @@ resource "aws_launch_template" "vault" {
     }
   }
 
-  user_data = local.user_data_vault
+  user_data = local.user_data_vault.rendered
 
   lifecycle {
     create_before_destroy = true
