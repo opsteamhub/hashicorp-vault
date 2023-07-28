@@ -60,10 +60,6 @@ resource "aws_launch_template" "vault" {
     enabled = false
   }
 
-  network_interfaces {
-    associate_public_ip_address = false
-  }
-
   #vpc_security_group_ids = [aws_security_group.ecs_sg.id]
   security_group_names = [aws_security_group.ecs_sg.name]
 
@@ -173,10 +169,6 @@ resource "aws_launch_template" "replica" {
 
   monitoring {
     enabled = false
-  }
-
-  network_interfaces {
-    associate_public_ip_address = false
   }
 
   #vpc_security_group_ids = [aws_security_group.ecs_sg_replica[0].id]
