@@ -27,7 +27,7 @@ locals {
       memory         = var.memory
       awslogs_group  = local.log_name
       region         = var.region_replica
-      dynamodb_table = var.create_replica == "true" ? aws_dynamodb_table.dynamodb_table_replica[0].name : "not"
+      dynamodb_table = var.create_replica == true ? aws_dynamodb_table.dynamodb_table_replica[0].name : "not"
 
   })
 }
