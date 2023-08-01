@@ -19,7 +19,7 @@ resource "aws_lb_target_group" "tg_vault" {
 }
 
 resource "aws_lb_target_group" "tg_exporter" {
-  name     = join("-", ["tg", local.vault_name])
+  name     = join("-", ["tg", local.vault_name, "exporter"])
   port     = 9100
   protocol = "TCP"
   vpc_id   = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
@@ -30,7 +30,7 @@ resource "aws_lb_target_group" "tg_exporter" {
   }
 
   tags = {
-    Name          = join("-", ["tg", local.vault_name])
+    Name          = join("-", ["tg", local.vault_name,  "exporter"])
     ProvisionedBy = local.provisioner
     Squad         = local.squad
     Service       = local.service
