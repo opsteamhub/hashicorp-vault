@@ -18,6 +18,26 @@ resource "aws_lb_target_group" "tg_vault" {
   depends_on = [aws_vpc.vpc]
 }
 
+resource "aws_lb_target_group" "tg_exporter" {
+  name     = join("-", ["tg", local.vault_name])
+  port     = 9100
+  protocol = "TCP"
+  vpc_id   = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
+
+  health_check {
+    port     = 9100
+    protocol = "TCP"
+  }
+
+  tags = {
+    Name          = join("-", ["tg", local.vault_name])
+    ProvisionedBy = local.provisioner
+    Squad         = local.squad
+    Service       = local.service
+  }
+  depends_on = [aws_vpc.vpc]
+}
+
 resource "aws_lb" "elb_vault" {
   name               = join("-", ["lb", local.vault_name])
   internal           = var.private_vault
@@ -44,6 +64,19 @@ resource "aws_lb_listener" "listener_vault" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.tg_vault.arn
+  }
+}
+
+resource "aws_lb_listener" "listener_exporter" {
+  load_balancer_arn = aws_lb.elb_vault.arn
+  port              = "9100"
+  protocol          = "TLS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = data.aws_acm_certificate.issued.arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.tg_exporter.arn
   }
 }
 
