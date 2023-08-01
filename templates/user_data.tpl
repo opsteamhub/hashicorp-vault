@@ -11,6 +11,6 @@ tar xvf node_exporter-1.5.0.linux-amd64.tar.gz
 
 cd /node_exporter-1.5.0.linux-amd64/
 
-cp node_exporter /usr/bin/
+sh ./node_exporter &
 
-node_exporter $
+
