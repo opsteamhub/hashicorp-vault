@@ -42,7 +42,7 @@ resource "aws_lb" "elb_vault" {
   name               = join("-", ["lb", local.vault_name])
   internal           = var.private_vault
   load_balancer_type = "network"
-  subnets            = [aws_subnet.pub_subnet_a_principal[0].id, aws_subnet.pub_subnet_b_principal[0].id]
+  subnets            = var.rpivate_vault == true ? [aws_subnet.pri_subnet_a_principal[0].id, aws_subnet.pri_subnet_b_principal[0].id] : [aws_subnet.pub_subnet_a_principal[0].id, aws_subnet.pub_subnet_b_principal[0].id]
 
   enable_deletion_protection = false
 
@@ -109,7 +109,7 @@ resource "aws_lb" "elb_vault_replica" {
   name               = join("-", ["lb", local.vault_name])
   internal           = var.private_vault
   load_balancer_type = "network"
-  subnets            = [aws_subnet.pub_subnet_a_replica[0].id, aws_subnet.pub_subnet_b_replica[0].id]
+  subnets            = var.private_vault == true ? [aws_subnet.pri_subnet_a_replica[0].id, aws_subnet.pri_subnet_b_replica[0].id] : [aws_subnet.pub_subnet_a_replica[0].id, aws_subnet.pub_subnet_b_replica[0].id]
 
   enable_deletion_protection = false
 
