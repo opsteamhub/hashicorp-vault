@@ -110,7 +110,7 @@ variable "squad" {
 variable "desired_capacity" {
   type        = number
   description = "Desired Capacity AutoScaling Group"
-  default     = 1
+  default     = 2
 }
 
 variable "min_size" {
@@ -128,7 +128,7 @@ variable "max_size" {
 variable "desired_task_count" {
   type        = number
   description = "Desired Task ECS Service"
-  default     = 1
+  default     = 2
 }
 
 variable "dynamodb_table" {
