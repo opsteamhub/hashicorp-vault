@@ -194,3 +194,7 @@ variable "routes_replica" {
 variable "key_name" {
   default = ""
 }
+
+variable "target_group_name" {
+  default = "vault"
+}

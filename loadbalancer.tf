@@ -1,5 +1,5 @@
 resource "aws_lb_target_group" "tg_vault" {
-  name_prefix = local.vault_name
+  name_prefix = var.target_group_name
   port        = 8200
   protocol    = "TCP"
   vpc_id      = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
@@ -11,7 +11,7 @@ resource "aws_lb_target_group" "tg_vault" {
   }
 
   tags = {
-    Name          = join("-", ["tg", local.vault_name])
+    Name          = var.target_group_name
     ProvisionedBy = local.provisioner
     Squad         = local.squad
     Service       = local.service
@@ -96,7 +96,7 @@ resource "aws_lb_listener" "listener_exporter" {
 resource "aws_lb_target_group" "tg_vault_replica" {
   count       = var.create_replica ? 1 : 0
   provider    = aws.replica
-  name_prefix = local.vault_name
+  name_prefix = var.target_group_name
   port        = 8200
   protocol    = "TCP"
   vpc_id      = aws_vpc.vpc_replica[0].id
@@ -108,7 +108,7 @@ resource "aws_lb_target_group" "tg_vault_replica" {
   }
 
   tags = {
-    Name          = join("-", ["tg", local.vault_name])
+    Name          = var.target_group_name
     ProvisionedBy = local.provisioner
     Squad         = local.squad
     Service       = local.service
