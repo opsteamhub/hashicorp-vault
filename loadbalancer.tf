@@ -37,6 +37,11 @@ resource "aws_lb_target_group" "tg_exporter" {
     Service       = local.service
   }
   depends_on = [aws_vpc.vpc]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
 }
 
 resource "aws_lb" "elb_vault" {
@@ -104,6 +109,11 @@ resource "aws_lb_target_group" "tg_vault_replica" {
     Squad         = local.squad
     Service       = local.service
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
 }
 
 resource "aws_lb" "elb_vault_replica" {
