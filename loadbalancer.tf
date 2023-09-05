@@ -1,5 +1,5 @@
 resource "aws_lb_target_group" "tg_vault" {
-  name     = join("-", ["tg", local.vault_name])
+  name_prefix     = join("-", ["tg", local.vault_name])
   port     = 8200
   protocol = "TCP"
   vpc_id   = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
@@ -17,10 +17,14 @@ resource "aws_lb_target_group" "tg_vault" {
     Service       = local.service
   }
   depends_on = [aws_vpc.vpc]
+
+  lifecycle {
+    create_before_destroy = true
+  }  
 }
 
 resource "aws_lb_target_group" "tg_exporter" {
-  name_prefix     = join("-", ["tg", local.vault_name, "exporter"])
+  name     = join("-", ["tg", local.vault_name, "exporter"])
   port     = 9100
   protocol = "TCP"
   vpc_id   = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
