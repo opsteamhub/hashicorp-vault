@@ -6,6 +6,10 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   hash_key         = "Path"
   range_key        = "Key"
 
+  point_in_time_recovery {
+    enabled = true
+  }
+
   attribute {
     name = "Path"
     type = "S"
@@ -35,6 +39,10 @@ resource "aws_dynamodb_table" "dynamodb_table_replica" {
   billing_mode     = "PAY_PER_REQUEST"
   hash_key         = "Path"
   range_key        = "Key"
+
+  point_in_time_recovery {
+    enabled = true
+  }
 
   attribute {
     name = "Path"

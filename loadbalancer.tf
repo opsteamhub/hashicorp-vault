@@ -46,6 +46,7 @@ resource "aws_lb" "elb_vault" {
   subnets            = var.private_vault == true ? [aws_subnet.pri_subnet_a_principal[0].id, aws_subnet.pri_subnet_b_principal[0].id] : [aws_subnet.pub_subnet_a_principal[0].id, aws_subnet.pub_subnet_b_principal[0].id]
 
   enable_deletion_protection = false
+  enable_cross_zone_load_balancing  = true
 
   tags = {
     Name          = join("-", ["lb", local.vault_name])
@@ -114,6 +115,7 @@ resource "aws_lb" "elb_vault_replica" {
   subnets            = var.private_vault == true ? [aws_subnet.pri_subnet_a_replica[0].id, aws_subnet.pri_subnet_b_replica[0].id] : [aws_subnet.pub_subnet_a_replica[0].id, aws_subnet.pub_subnet_b_replica[0].id]
 
   enable_deletion_protection = false
+  enable_cross_zone_load_balancing  = true
 
   tags = {
     Name          = join("-", ["lb", local.vault_name])
