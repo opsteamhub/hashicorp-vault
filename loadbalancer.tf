@@ -92,7 +92,7 @@ resource "aws_lb_listener" "listener_exporter" {
 resource "aws_lb_target_group" "tg_vault_replica" {
   count    = var.create_replica ? 1 : 0
   provider = aws.replica
-  ame_prefix     = join("-", ["tg", local.vault_name])
+  name_prefix     = join("-", ["tg", local.vault_name])
   port     = 8200
   protocol = "TCP"
   vpc_id   = aws_vpc.vpc_replica[0].id
