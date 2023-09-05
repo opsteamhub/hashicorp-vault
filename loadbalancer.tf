@@ -6,7 +6,7 @@ resource "aws_lb_target_group" "tg_vault" {
 
   health_check {
     port     = 8200
-    protocol = "HTTPS"
+    protocol = "HTTP"
     path     = "/v1/sys/health"
   }
 
@@ -103,7 +103,7 @@ resource "aws_lb_target_group" "tg_vault_replica" {
 
   health_check {
     port     = 8200
-    protocol = "HTTPS"
+    protocol = "HTTP"
     path     = "/v1/sys/health"
   }
 
