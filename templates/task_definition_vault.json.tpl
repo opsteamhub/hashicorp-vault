@@ -9,11 +9,11 @@
     "environment": [
       {
         "name": "VAULT_ADDR",
-        "value": "http://127.0.0.1:8200"
+        "value": "https://vault.ops.team"
       },
       {
         "name": "VAULT_API_ADDR",
-        "value": "http://127.0.0.1:8200"
+        "value": "https://vault.ops.team"
       },
       {
         "name": "DYNAMODB_HA_ENABLED",
