@@ -16,6 +16,10 @@
         "value": "http://127.0.0.1:8200"
       },
       {
+        "name": "DYNAMODB_HA_ENABLED",
+        "value": "true"
+      },      
+      {
         "name": "VAULT_DISABLE_MLOCK",
         "value": "${disable_mlock}"
       },
