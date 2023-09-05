@@ -144,7 +144,7 @@ variable "provisioner" {
 }
 
 variable "create_vpc" {
-  type = bool
+  type    = bool
   default = true
 }
 
@@ -161,7 +161,7 @@ variable "subnet_private_id" {
 }
 
 variable "create_replica" {
-  type = bool
+  type    = bool
   default = true
 }
 

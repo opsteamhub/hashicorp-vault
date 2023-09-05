@@ -40,7 +40,7 @@ data "aws_ami" "amazon_linux_ecs_replica" {
 }
 
 resource "aws_launch_template" "vault" {
-  name_prefix          = join("-", ["lt", local.vault_name])
+  name_prefix = join("-", ["lt", local.vault_name])
 
   disable_api_termination = true
 
@@ -91,11 +91,11 @@ resource "aws_launch_template" "vault" {
 #}
 
 resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
-  name                 = join("-", ["asg", local.vault_name])
-  vpc_zone_identifier  = [aws_subnet.pri_subnet_a_principal[0].id, aws_subnet.pri_subnet_b_principal[0].id]
+  name                = join("-", ["asg", local.vault_name])
+  vpc_zone_identifier = [aws_subnet.pri_subnet_a_principal[0].id, aws_subnet.pri_subnet_b_principal[0].id]
   #launch_configuration = aws_launch_configuration.ecs_launch_config_vault.name
-  target_group_arns    = [aws_lb_target_group.tg_vault.arn]
-  health_check_type    = "ELB"
+  target_group_arns         = [aws_lb_target_group.tg_vault.arn]
+  health_check_type         = "ELB"
   desired_capacity          = var.desired_capacity
   min_size                  = var.min_size
   max_size                  = var.max_size
@@ -149,9 +149,9 @@ resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
 #}
 
 resource "aws_launch_template" "replica" {
-  count                = var.create_replica ? 1 : 0
-  provider             = aws.replica
-  name_prefix          = join("-", ["lt", local.vault_name])
+  count       = var.create_replica ? 1 : 0
+  provider    = aws.replica
+  name_prefix = join("-", ["lt", local.vault_name])
 
   disable_api_termination = true
 
@@ -188,13 +188,13 @@ resource "aws_launch_template" "replica" {
 }
 
 resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault_replica" {
-  count                = var.create_replica ? 1 : 0
-  provider             = aws.replica
-  name                 = join("-", ["asg", local.vault_name])
-  vpc_zone_identifier  = [aws_subnet.pri_subnet_a_replica[0].id, aws_subnet.pri_subnet_b_replica[0].id]
+  count               = var.create_replica ? 1 : 0
+  provider            = aws.replica
+  name                = join("-", ["asg", local.vault_name])
+  vpc_zone_identifier = [aws_subnet.pri_subnet_a_replica[0].id, aws_subnet.pri_subnet_b_replica[0].id]
   #launch_configuration = aws_launch_configuration.ecs_launch_config_vault_replica[0].name
-  target_group_arns    = [aws_lb_target_group.tg_vault_replica[0].arn]
-  health_check_type    = "ELB"
+  target_group_arns         = [aws_lb_target_group.tg_vault_replica[0].arn]
+  health_check_type         = "ELB"
   desired_capacity          = var.desired_capacity
   min_size                  = var.min_size
   max_size                  = var.max_size

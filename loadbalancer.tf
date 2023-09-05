@@ -1,8 +1,8 @@
 resource "aws_lb_target_group" "tg_vault" {
-  name_prefix     = join("-", ["tg", local.vault_name])
-  port     = 8200
-  protocol = "TCP"
-  vpc_id   = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
+  name_prefix = local.vault_name
+  port        = 8200
+  protocol    = "TCP"
+  vpc_id      = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
 
   health_check {
     port     = 8200
@@ -20,7 +20,7 @@ resource "aws_lb_target_group" "tg_vault" {
 
   lifecycle {
     create_before_destroy = true
-  }  
+  }
 }
 
 resource "aws_lb_target_group" "tg_exporter" {
@@ -35,7 +35,7 @@ resource "aws_lb_target_group" "tg_exporter" {
   }
 
   tags = {
-    Name          = join("-", ["tg", local.vault_name,  "exporter"])
+    Name          = join("-", ["tg", local.vault_name, "exporter"])
     ProvisionedBy = local.provisioner
     Squad         = local.squad
     Service       = local.service
@@ -54,8 +54,8 @@ resource "aws_lb" "elb_vault" {
   load_balancer_type = "network"
   subnets            = var.private_vault == true ? [aws_subnet.pri_subnet_a_principal[0].id, aws_subnet.pri_subnet_b_principal[0].id] : [aws_subnet.pub_subnet_a_principal[0].id, aws_subnet.pub_subnet_b_principal[0].id]
 
-  enable_deletion_protection = false
-  enable_cross_zone_load_balancing  = true
+  enable_deletion_protection       = false
+  enable_cross_zone_load_balancing = true
 
   tags = {
     Name          = join("-", ["lb", local.vault_name])
@@ -94,12 +94,12 @@ resource "aws_lb_listener" "listener_exporter" {
 ###
 
 resource "aws_lb_target_group" "tg_vault_replica" {
-  count    = var.create_replica ? 1 : 0
-  provider = aws.replica
-  name_prefix     = join("-", ["tg", local.vault_name])
-  port     = 8200
-  protocol = "TCP"
-  vpc_id   = aws_vpc.vpc_replica[0].id
+  count       = var.create_replica ? 1 : 0
+  provider    = aws.replica
+  name_prefix = local.vault_name
+  port        = 8200
+  protocol    = "TCP"
+  vpc_id      = aws_vpc.vpc_replica[0].id
 
   health_check {
     port     = 8200
@@ -128,8 +128,8 @@ resource "aws_lb" "elb_vault_replica" {
   load_balancer_type = "network"
   subnets            = var.private_vault == true ? [aws_subnet.pri_subnet_a_replica[0].id, aws_subnet.pri_subnet_b_replica[0].id] : [aws_subnet.pub_subnet_a_replica[0].id, aws_subnet.pub_subnet_b_replica[0].id]
 
-  enable_deletion_protection = false
-  enable_cross_zone_load_balancing  = true
+  enable_deletion_protection       = false
+  enable_cross_zone_load_balancing = true
 
   tags = {
     Name          = join("-", ["lb", local.vault_name])
