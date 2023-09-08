@@ -8,6 +8,11 @@ resource "aws_lb_target_group" "tg_vault" {
     port     = 8200
     protocol = "HTTP"
     path     = "/v1/sys/health"
+    interval = 5
+    timeout  = 2
+    unhealthy_threshold = 5
+    healthy_threshold = 2
+
   }
 
   tags = {
@@ -33,6 +38,10 @@ resource "aws_lb_target_group" "tg_vault_cluster" {
     port     = 8200
     protocol = "HTTP"
     path     = "/v1/sys/health"
+    interval = 5
+    timeout  = 2
+    unhealthy_threshold = 5
+    healthy_threshold = 2    
   }
 
   tags = {
@@ -143,6 +152,10 @@ resource "aws_lb_target_group" "tg_vault_replica" {
     port     = 8200
     protocol = "HTTP"
     path     = "/v1/sys/health"
+    interval = 5
+    timeout  = 2
+    unhealthy_threshold = 5
+    healthy_threshold = 2    
   }
 
   tags = {
@@ -170,6 +183,10 @@ resource "aws_lb_target_group" "tg_vault_cluster_replica" {
     port     = 8200
     protocol = "HTTP"
     path     = "/v1/sys/health"
+    interval = 5
+    timeout  = 2
+    unhealthy_threshold = 5
+    healthy_threshold = 2    
   }
 
   tags = {
