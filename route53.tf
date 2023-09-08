@@ -1,5 +1,5 @@
 resource "aws_route53_zone" "zone_principal" {
-  name = "vault.principal"
+  name = "vault.principal.local"
 
   vpc {
     vpc_id     = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
@@ -7,7 +7,7 @@ resource "aws_route53_zone" "zone_principal" {
   }
 
   tags = {
-    Name          = "vault.principal"
+    Name          = "vault.principal.local"
     ProvisionedBy = local.provisioner
     Squad         = local.squad
     Service       = local.service
@@ -18,18 +18,25 @@ resource "aws_route53_zone" "zone_principal" {
 
 resource "aws_route53_record" "vault_principal" {
   zone_id = aws_route53_zone.zone_principal.zone_id
-  name    = "vault"
+  name    = "internal"
   type    = "CNAME"
   ttl     = "30"
   records = [aws_lb.elb_vault.dns_name]
 }
 
+resource "aws_route53_record" "vault_cluster_principal" {
+  zone_id = aws_route53_zone.zone_principal.zone_id
+  name    = "cluster"
+  type    = "CNAME"
+  ttl     = "30"
+  records = [aws_lb.elb_vault.dns_name]
+}
 ###
 
 resource "aws_route53_zone" "zone_replica" {
   count    = var.create_replica ? 1 : 0
   provider = aws.replica
-  name     = "vault.replica"
+  name     = "vault.replica.local"
 
   vpc {
     vpc_id     = aws_vpc.vpc_replica[0].id
@@ -37,7 +44,7 @@ resource "aws_route53_zone" "zone_replica" {
   }
 
   tags = {
-    Name          = "vault.replica"
+    Name          = "vault.replica.local"
     ProvisionedBy = local.provisioner
     Squad         = local.squad
     Service       = local.service
@@ -48,7 +55,17 @@ resource "aws_route53_record" "vault_replica" {
   count    = var.create_replica ? 1 : 0
   provider = aws.replica
   zone_id  = aws_route53_zone.zone_replica[0].zone_id
-  name     = "vault-replica"
+  name     = "internal"
+  type     = "CNAME"
+  ttl      = "30"
+  records  = [aws_lb.elb_vault_replica[0].dns_name]
+}
+
+resource "aws_route53_record" "vault_cluster_replica" {
+  count    = var.create_replica ? 1 : 0
+  provider = aws.replica
+  zone_id  = aws_route53_zone.zone_replica[0].zone_id
+  name     = "cluster"
   type     = "CNAME"
   ttl      = "30"
   records  = [aws_lb.elb_vault_replica[0].dns_name]

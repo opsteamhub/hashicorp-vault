@@ -95,7 +95,7 @@ resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
   vpc_zone_identifier = [aws_subnet.pri_subnet_a_principal[0].id, aws_subnet.pri_subnet_b_principal[0].id]
   #launch_configuration = aws_launch_configuration.ecs_launch_config_vault.name
   target_group_arns         = [aws_lb_target_group.tg_vault.arn]
-  health_check_type         = "ELB"
+  #health_check_type         = "ELB"
   desired_capacity          = var.desired_capacity
   min_size                  = var.min_size
   max_size                  = var.max_size
@@ -194,7 +194,7 @@ resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault_replica" {
   vpc_zone_identifier = [aws_subnet.pri_subnet_a_replica[0].id, aws_subnet.pri_subnet_b_replica[0].id]
   #launch_configuration = aws_launch_configuration.ecs_launch_config_vault_replica[0].name
   target_group_arns         = [aws_lb_target_group.tg_vault_replica[0].arn]
-  health_check_type         = "ELB"
+  #health_check_type         = "ELB"
   desired_capacity          = var.desired_capacity
   min_size                  = var.min_size
   max_size                  = var.max_size
