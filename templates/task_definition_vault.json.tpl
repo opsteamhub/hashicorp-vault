@@ -14,10 +14,6 @@
       {
         "name": "VAULT_API_ADDR",
         "value": "https://${vault_addr}"
-      },
-      {
-        "name": "VAULT_CLUSTER_ADDR",
-        "value": "http://${vault_cluster_addr}:8201"
       },      
       {
         "name": "DYNAMODB_HA_ENABLED",

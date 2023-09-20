@@ -28,35 +28,6 @@ resource "aws_lb_target_group" "tg_vault" {
   }
 }
 
-resource "aws_lb_target_group" "tg_vault_cluster" {
-  name_prefix = var.target_group_name
-  port        = 8201
-  protocol    = "TCP"
-  vpc_id      = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
-
-  health_check {
-    port     = 8200
-    protocol = "HTTP"
-    path     = "/v1/sys/health"
-    interval = 5
-    timeout  = 2
-    unhealthy_threshold = 5
-    healthy_threshold = 2    
-  }
-
-  tags = {
-    Name          = var.target_group_name
-    ProvisionedBy = local.provisioner
-    Squad         = local.squad
-    Service       = local.service
-  }
-  depends_on = [aws_vpc.vpc]
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
 resource "aws_lb_target_group" "tg_exporter" {
   name     = join("-", ["tg", local.vault_name, "exporter"])
   port     = 9100
@@ -125,19 +96,6 @@ resource "aws_lb_listener" "listener_exporter" {
   }
 }
 
-resource "aws_lb_listener" "listener_vault_cluster" {
-  load_balancer_arn = aws_lb.elb_vault.arn
-  port              = "8201"
-  protocol          = "TLS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = data.aws_acm_certificate.issued.arn
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.tg_vault_cluster.arn
-  }
-}
-
 ###
 
 resource "aws_lb_target_group" "tg_vault_replica" {
@@ -145,37 +103,6 @@ resource "aws_lb_target_group" "tg_vault_replica" {
   provider    = aws.replica
   name_prefix = var.target_group_name
   port        = 8200
-  protocol    = "TCP"
-  vpc_id      = aws_vpc.vpc_replica[0].id
-
-  health_check {
-    port     = 8200
-    protocol = "HTTP"
-    path     = "/v1/sys/health"
-    interval = 5
-    timeout  = 2
-    unhealthy_threshold = 5
-    healthy_threshold = 2    
-  }
-
-  tags = {
-    Name          = var.target_group_name
-    ProvisionedBy = local.provisioner
-    Squad         = local.squad
-    Service       = local.service
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-
-}
-
-resource "aws_lb_target_group" "tg_vault_cluster_replica" {
-  count       = var.create_replica ? 1 : 0
-  provider    = aws.replica
-  name_prefix = var.target_group_name
-  port        = 8201
   protocol    = "TCP"
   vpc_id      = aws_vpc.vpc_replica[0].id
 
@@ -236,20 +163,6 @@ resource "aws_lb_listener" "listener_vault_replica" {
   }
 }
 
-resource "aws_lb_listener" "listener_vault_cluster_replica" {
-  count             = var.create_replica ? 1 : 0
-  provider          = aws.replica
-  load_balancer_arn = aws_lb.elb_vault_replica[0].arn
-  port              = "8201"
-  protocol          = "TLS"
-  ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = data.aws_acm_certificate.issued_replica[0].arn
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.tg_vault_cluster_replica[0].arn
-  }
-}
 
 
 
