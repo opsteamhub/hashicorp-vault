@@ -17,7 +17,7 @@
       },      
       {
         "name": "DYNAMODB_HA_ENABLED",
-        "value": "true"
+        "value": "${ha_enabled}"
       },      
       {
         "name": "VAULT_DISABLE_MLOCK",

@@ -7,7 +7,7 @@ resource "aws_lb_target_group" "tg_vault" {
   health_check {
     port     = 8200
     protocol = "HTTP"
-    path     = "/v1/sys/health"
+    path     = var.health_check_path
     interval = 5
     timeout  = 2
     unhealthy_threshold = 5
@@ -109,7 +109,7 @@ resource "aws_lb_target_group" "tg_vault_replica" {
   health_check {
     port     = 8200
     protocol = "HTTP"
-    path     = "/v1/sys/health"
+    path     = var.health_check_path
     interval = 5
     timeout  = 2
     unhealthy_threshold = 5
@@ -133,7 +133,7 @@ resource "aws_lb" "elb_vault_replica" {
   count              = var.create_replica ? 1 : 0
   provider           = aws.replica
   name               = join("-", ["lb", local.vault_name])
-  internal           = var.private_vault
+  internal           = var.private_vault_replica
   load_balancer_type = "network"
   subnets            = var.private_vault == true ? [aws_subnet.pri_subnet_a_replica[0].id, aws_subnet.pri_subnet_b_replica[0].id] : [aws_subnet.pub_subnet_a_replica[0].id, aws_subnet.pub_subnet_b_replica[0].id]
 

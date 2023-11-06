@@ -89,6 +89,12 @@ variable "private_vault" {
   default     = true
 }
 
+variable "private_vault_replica" {
+  type        = bool
+  description = "LB internal facing"
+  default     = true
+}
+
 variable "cpu" {
   type        = number
   description = "CPU task"
@@ -107,29 +113,63 @@ variable "squad" {
   default     = "untagged"
 }
 
-variable "desired_capacity" {
+variable "desired_capacity_principal" {
   type        = number
   description = "Desired Capacity AutoScaling Group"
   default     = 2
 }
 
-variable "min_size" {
+variable "desired_capacity_replica" {
+  type        = number
+  description = "Desired Capacity AutoScaling Group"
+  default     = 1
+}
+
+variable "health_check_path" {
+  default = "/v1/sys/health"
+}
+
+variable "min_size_principal" {
   type        = number
   description = "Min Size AutoScaling Group"
   default     = 1
 }
 
-variable "max_size" {
+variable "max_size_principal" {
   type        = number
   description = "Min Size AutoScaling Group"
   default     = 2
 }
 
-variable "desired_task_count" {
+variable "min_size_replica" {
+  type        = number
+  description = "Min Size AutoScaling Group"
+  default     = 1
+}
+
+variable "max_size_replica" {
+  type        = number
+  description = "Min Size AutoScaling Group"
+  default     = 2
+}
+
+variable "ha_enabled" {
+  type = string
+  default = "true"
+}
+
+variable "desired_task_count_principal" {
   type        = number
   description = "Desired Task ECS Service"
   default     = 2
 }
+
+variable "desired_task_count_replica" {
+  type        = number
+  description = "Desired Task ECS Service"
+  default     = 1
+}
+
 
 variable "dynamodb_table" {
   type        = string

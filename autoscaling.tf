@@ -96,9 +96,9 @@ resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
   #launch_configuration = aws_launch_configuration.ecs_launch_config_vault.name
   target_group_arns         = [aws_lb_target_group.tg_vault.arn, aws_lb_target_group.tg_exporter.arn]
   #health_check_type         = "ELB"
-  desired_capacity          = var.desired_capacity
-  min_size                  = var.min_size
-  max_size                  = var.max_size
+  desired_capacity          = var.desired_capacity_principal
+  min_size                  = var.min_size_principal
+  max_size                  = var.max_size_principal
   health_check_grace_period = 300
 
   launch_template {
@@ -195,9 +195,9 @@ resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault_replica" {
   #launch_configuration = aws_launch_configuration.ecs_launch_config_vault_replica[0].name
   target_group_arns         = [aws_lb_target_group.tg_vault_replica[0].arn]
   #health_check_type         = "ELB"
-  desired_capacity          = var.desired_capacity
-  min_size                  = var.min_size
-  max_size                  = var.max_size
+  desired_capacity          = var.desired_capacity_replica
+  min_size                  = var.min_size_replica
+  max_size                  = var.max_size_replica
   health_check_grace_period = 300
 
   launch_template {

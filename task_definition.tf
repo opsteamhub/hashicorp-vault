@@ -13,6 +13,7 @@ locals {
       region             = var.region_principal
       dynamodb_table     = aws_dynamodb_table.dynamodb_table.name
       vault_addr         = aws_route53_record.vault_principal.fqdn
+      ha_enabled         = var.ha_enabled
 
   })
 
@@ -30,6 +31,7 @@ locals {
       region             = var.region_replica
       dynamodb_table     = var.create_replica == true ? aws_dynamodb_table.dynamodb_table_replica[0].name : "not"
       vault_addr         = aws_route53_record.vault_replica[0].fqdn
+      ha_enabled         = var.ha_enabled
 
   })
 }
