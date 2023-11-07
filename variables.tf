@@ -4,6 +4,14 @@ variable "aws_account" {
   default     = ""
 }
 
+variable "cidr_block_principal" {
+  default = "172.27.18.0/24"
+}
+
+variable "cidr_block_replica" {
+  default = "10.10.20.0/24"
+}
+
 variable "project_name" {
   type        = string
   description = "Project Name"
