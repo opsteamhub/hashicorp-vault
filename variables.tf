@@ -162,7 +162,7 @@ variable "max_size_replica" {
 }
 
 variable "ha_enabled" {
-  type = string
+  type    = string
   default = "true"
 }
 

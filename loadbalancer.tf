@@ -5,13 +5,13 @@ resource "aws_lb_target_group" "tg_vault" {
   vpc_id      = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
 
   health_check {
-    port     = 8200
-    protocol = "HTTP"
-    path     = var.health_check_path
-    interval = 5
-    timeout  = 2
+    port                = 8200
+    protocol            = "HTTP"
+    path                = var.health_check_path
+    interval            = 5
+    timeout             = 2
     unhealthy_threshold = 5
-    healthy_threshold = 2
+    healthy_threshold   = 2
 
   }
 
@@ -107,13 +107,13 @@ resource "aws_lb_target_group" "tg_vault_replica" {
   vpc_id      = aws_vpc.vpc_replica[0].id
 
   health_check {
-    port     = 8200
-    protocol = "HTTP"
-    path     = var.health_check_path
-    interval = 5
-    timeout  = 2
+    port                = 8200
+    protocol            = "HTTP"
+    path                = var.health_check_path
+    interval            = 5
+    timeout             = 2
     unhealthy_threshold = 5
-    healthy_threshold = 2    
+    healthy_threshold   = 2
   }
 
   tags = {
@@ -164,12 +164,12 @@ resource "aws_lb_listener" "listener_vault_replica" {
 }
 
 resource "aws_lb_target_group" "tg_exporter_replica" {
-  count             = var.create_replica ? 1 : 0
-  provider          = aws.replica  
+  count    = var.create_replica ? 1 : 0
+  provider = aws.replica
   name     = join("-", ["tg", local.vault_name, "exporter"])
   port     = 9100
   protocol = "TCP"
-  vpc_id   = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
+  vpc_id   = aws_vpc.vpc_replica[0].id
 
   health_check {
     port     = 9100
@@ -192,7 +192,7 @@ resource "aws_lb_target_group" "tg_exporter_replica" {
 
 resource "aws_lb_listener" "listener_exporter_replica" {
   count             = var.create_replica ? 1 : 0
-  provider          = aws.replica   
+  provider          = aws.replica
   load_balancer_arn = aws_lb.elb_vault_replica[0].arn
   port              = "9100"
   protocol          = "TLS"

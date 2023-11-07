@@ -17,7 +17,7 @@ resource "aws_security_group" "ecs_sg" {
     to_port     = 8201
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-  }  
+  }
 
   ingress {
     description = "Node Exporter Port"
@@ -66,7 +66,7 @@ resource "aws_security_group" "ecs_sg_replica" {
     to_port     = 8201
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
-  }  
+  }
 
   ingress {
     description = "Node Exporter Port"
