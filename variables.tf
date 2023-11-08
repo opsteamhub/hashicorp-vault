@@ -246,3 +246,19 @@ variable "key_name" {
 variable "target_group_name" {
   default = "vault"
 }
+
+variable "backup_rule_name" {
+  default = "Daily"
+}
+
+variable "backup_schedule" {
+  default = "cron(0 19 ? * * *)"
+}
+
+variable "backup_lifecycle" {
+  default = 60
+}
+
+variable "backup_lifecycle_replica" {
+  default = 30
+}
