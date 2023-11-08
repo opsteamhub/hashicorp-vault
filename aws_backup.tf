@@ -87,7 +87,7 @@ data "aws_iam_policy_document" "assume_role_replica" {
 resource "aws_iam_role" "backup_replica" {
   count             = var.create_replica ? 1 : 0
   provider          = aws.replica
-  name               = join("-", ["role", "backup", local.vault_name])
+  name               = join("-", ["role", "backup", local.vault_name, "replica"])
   assume_role_policy = data.aws_iam_policy_document.assume_role_replica[0].json
 }
 
