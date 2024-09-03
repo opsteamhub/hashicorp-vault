@@ -37,8 +37,6 @@ resource "aws_security_group_rule" "outbound-nat-instance" {
 
 
 data "aws_ami" "natinstance_ami" {
-  count       = var.create_nat_instance ? 1 : 0
-
   most_recent = true
   owners      = ["amazon"]
 
@@ -52,8 +50,8 @@ data "aws_ami" "natinstance_ami" {
 # Build the NAT Instance
 resource "aws_instance" "nat-instance" {
   count       = var.create_nat_instance ? 1 : 0
-  ami                         = data.aws_ami.natinstance_ami[0].id
-  instance_type               = "t2.micro"
+  ami                         = data.aws_ami.natinstance_ami.id
+  instance_type               = "t3.small"
   subnet_id                   = aws_subnet.pub_subnet_a_principal[0].id
   vpc_security_group_ids      = [aws_security_group.sg-nat-instance[0].id]
   associate_public_ip_address = true
