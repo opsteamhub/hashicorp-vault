@@ -63,7 +63,7 @@ resource "aws_instance" "nat-instance" {
 
   # Root disk for NAT instance 
   root_block_device {
-    volume_size = "2"
+    volume_size = "8"
     volume_type = "gp3"
     encrypted   = true
   }
