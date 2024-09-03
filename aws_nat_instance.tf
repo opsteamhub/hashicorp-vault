@@ -1,11 +1,11 @@
 # Security Group for NAT Instance
 resource "aws_security_group" "sg-nat-instance" {
   count       = var.create_nat_instance ? 1 : 0
-  name        = join("-", ["SG", ,"nat-instance", local.vault_name])
+  name        = join("-", ["SG", "nat-instance", local.vault_name])
   description = "Security Group for NAT instance"
   vpc_id      = var.create_vpc == "false" ? var.vpc_id : aws_vpc.vpc[0].id
   tags = {
-    "Name"          = join("-", ["SG", ,"nat-instance", local.vault_name])
+    "Name"          = join("-", ["SG", "nat-instance", local.vault_name])
     "ProvisionedBy" = local.provisioner
     "Squad"         = local.squad
     "Service"       = local.service
