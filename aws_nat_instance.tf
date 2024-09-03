@@ -38,16 +38,12 @@ resource "aws_security_group_rule" "outbound-nat-instance" {
 
 data "aws_ami" "natinstance_ami" {
   most_recent = true
-  owners      = ["amazon"]
+  owners      = ["self"]
 
   filter {
     name   = "name"
     values = ["amzn-ami-vpc-nat*"]
-  }
-  filter {
-    name   = "owner-alias"
-    values = ["amazon"]
-  }  
+  } 
 }
 
 
