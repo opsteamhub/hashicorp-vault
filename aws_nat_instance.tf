@@ -134,3 +134,25 @@ data "aws_network_interface" "nat_instance_network_interface" {
     values = [data.aws_instances.nat_instance.ids[0]]
   }
 }
+
+resource "aws_eip" "nat_instance_eip" {
+  count = var.create_nat_instance ? 1 : 0
+  vpc   = true
+
+  tags = {
+    "Name" = join("-", ["eip", "nat-instance", local.vault_name])
+  }
+}
+
+resource "aws_eip_association" "nat_instance_eip_assoc" {
+  count = var.create_nat_instance && length(data.aws_instances.nat_instance.ids) > 0 ? 1 : 0
+
+  instance_id   = data.aws_instances.nat_instance.ids[0]
+  allocation_id = aws_eip.nat_instance_eip[0].id
+
+  depends_on = [
+    aws_autoscaling_group.nat_asg_vault,
+    aws_eip.nat_instance_eip
+  ]
+}
+
