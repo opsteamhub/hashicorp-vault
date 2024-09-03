@@ -196,6 +196,11 @@ variable "create_vpc" {
   default = true
 }
 
+variable "create_nat_instance" {
+  type    = bool
+  default = true
+}
+
 variable "vpc_id" {
   default = null
 }
