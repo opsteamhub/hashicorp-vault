@@ -21,7 +21,7 @@ resource "aws_security_group_rule" "vpc-inbound" {
   to_port           = 0
   protocol          = "-1"
   cidr_blocks       = [var.cidr_block_principal]
-  security_group_id = aws_security_group.sg-nat-instance.id
+  security_group_id = aws_security_group.sg-nat-instance[0].id
 }
 
 # NAT Instance security group rule to allow outbound traffic
@@ -32,7 +32,7 @@ resource "aws_security_group_rule" "outbound-nat-instance" {
   to_port           = 0
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = aws_security_group.sg-nat-instance.id
+  security_group_id = aws_security_group.sg-nat-instance[0].id
 }
 
 
@@ -52,10 +52,10 @@ data "aws_ami" "natinstance_ami" {
 # Build the NAT Instance
 resource "aws_instance" "nat-instance" {
   count       = var.create_nat_instance ? 1 : 0
-  ami                         = data.aws_ami.natinstance_ami.id
+  ami                         = data.aws_ami.natinstance_ami[0].id
   instance_type               = "t2.micro"
-  subnet_id                   = aws_subnet.gluon-public1.id
-  vpc_security_group_ids      = [aws_security_group.gluon-sg-nat-instance.id]
+  subnet_id                   = aws_subnet.pub_subnet_a_principal[0].id
+  vpc_security_group_ids      = [aws_security_group.sg-nat-instance[0].id]
   associate_public_ip_address = true
   source_dest_check           = false
 
