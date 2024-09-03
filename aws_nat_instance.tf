@@ -36,15 +36,15 @@ resource "aws_security_group_rule" "outbound-nat-instance" {
 }
 
 
-data "aws_ami" "natinstance_ami" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = ["amzn-ami-vpc-nat*"]
-  }
-}
+#data "aws_ami" "natinstance_ami" {
+#  most_recent = true
+#  owners      = ["amazon"]
+#
+#  filter {
+#    name   = "name"
+#    values = ["amzn-ami-vpc-nat*"]
+#  }
+#}
 
 
 # Build the NAT Instance
