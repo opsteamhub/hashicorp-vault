@@ -136,9 +136,14 @@ data "aws_network_interface" "nat_instance_network_interface" {
 
   filter {
     name   = "attachment.instance-id"
-    values = [data.aws_instances.nat_instance.ids[0]]
+    values = [length(data.aws_instances.nat_instance.ids) > 0 ? data.aws_instances.nat_instance.ids[0] : ""]
   }
 }
+
+output "nat_instance_ids" {
+  value = data.aws_instances.nat_instance.ids
+}
+
 
 resource "aws_eip" "nat_instance_eip" {
   count = var.create_nat_instance ? 1 : 0
@@ -153,7 +158,7 @@ resource "aws_eip" "nat_instance_eip" {
 }
 
 resource "aws_eip_association" "nat_instance_eip_assoc" {
-  count                = var.create_nat_instance && length(aws_network_interface.nat_instance_network_interface.*.id) > 0 ? 1 : 0
+  count                = var.create_nat_instance && length(aws_network_interface.nat_instance_network_interface) > 0 ? 1 : 0
   network_interface_id = aws_network_interface.nat_instance_network_interface[0].id
   allocation_id        = aws_eip.nat_instance_eip[0].id
 }
@@ -161,7 +166,7 @@ resource "aws_eip_association" "nat_instance_eip_assoc" {
 resource "aws_network_interface" "nat_instance_network_interface" {
   count             = var.create_nat_instance ? 1 : 0
   subnet_id         = aws_subnet.pub_subnet_b_principal[0].id
-  security_groups   = [aws_security_group.sg-nat-instance[0].id]
+  security_groups   = [aws_security_group.sg_nat_instance[0].id]
   source_dest_check = false
 
   tags = {
@@ -173,10 +178,9 @@ resource "aws_network_interface" "nat_instance_network_interface" {
 }
 
 resource "aws_network_interface_attachment" "nat_instance_attachment" {
-  count = var.create_nat_instance && length(data.aws_instances.nat_instance.ids) > 0 ? 1 : 0
+  count = var.create_nat_instance && length(data.aws_instances.nat_instance.ids) > 0 && length(aws_network_interface.nat_instance_network_interface) > 0 ? 1 : 0
 
   instance_id          = data.aws_instances.nat_instance.ids[0]
   network_interface_id = aws_network_interface.nat_instance_network_interface[0].id
-  device_index         = 1 # Você pode alterar este valor conforme necessário
+  device_index         = 1
 }
-
