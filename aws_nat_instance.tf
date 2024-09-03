@@ -99,7 +99,7 @@ resource "aws_launch_template" "nat_instance" {
   }
 }
 
-resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
+resource "aws_autoscaling_group" "nat_asg_vault" {
   name_prefix                = join("-", ["asg", "nat-instance", local.vault_name])
   vpc_zone_identifier = [aws_subnet.pub_subnet_a_principal[0].id, aws_subnet.pub_subnet_b_principal[0].id]
   desired_capacity          = 1
