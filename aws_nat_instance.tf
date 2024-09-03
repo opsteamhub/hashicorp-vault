@@ -84,7 +84,7 @@ resource "aws_launch_template" "nat_instance" {
 resource "aws_autoscaling_group" "nat_asg_vault" {
   count               = var.create_nat_instance ? 1 : 0
   name_prefix         = join("-", ["asg", "nat-instance", local.vault_name])
-  vpc_zone_identifier = [aws_subnet.pub_subnet_a_principal[0].id, aws_subnet.pub_subnet_b_principal[0].id]
+  vpc_zone_identifier = [aws_subnet.pub_subnet_a_principal[0].id]
   desired_capacity    = 1
   min_size            = 1
   max_size            = 1
