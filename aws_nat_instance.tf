@@ -100,6 +100,7 @@ resource "aws_launch_template" "nat_instance" {
 }
 
 resource "aws_autoscaling_group" "nat_asg_vault" {
+  count       = var.create_nat_instance ? 1 : 0
   name_prefix                = join("-", ["asg", "nat-instance", local.vault_name])
   vpc_zone_identifier = [aws_subnet.pub_subnet_a_principal[0].id, aws_subnet.pub_subnet_b_principal[0].id]
   desired_capacity          = 1
@@ -133,5 +134,26 @@ resource "aws_autoscaling_group" "nat_asg_vault" {
     key                 = "Service"
     value               = local.service
     propagate_at_launch = true
+  }
+}
+
+data "aws_instances" "nat_instance" {
+  filter {
+    name   = "tag:Name"
+    values = [join("-", ["asg", "nat-instance", local.vault_name])]
+  }
+
+  filter {
+    name   = "instance-state-name"
+    values = ["running"]
+  }
+}
+
+data "aws_network_interface" "nat_instance_network_interface" {
+  count = length(data.aws_instances.nat_instance.ids) > 0 ? 1 : 0
+
+  filter {
+    name   = "attachment.instance-id"
+    values = [data.aws_instances.nat_instance.ids[0]]
   }
 }
