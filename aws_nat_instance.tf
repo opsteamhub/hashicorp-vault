@@ -59,7 +59,7 @@ resource "aws_launch_template" "nat_instance" {
 
   instance_initiated_shutdown_behavior = "terminate"
 
-  instance_type = "t3.small"
+  instance_type = "t3.medium"
 
   monitoring {
     enabled = false
