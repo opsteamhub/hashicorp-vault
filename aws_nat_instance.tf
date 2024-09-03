@@ -134,6 +134,8 @@ data "aws_instances" "nat_instance" {
 data "aws_network_interface" "nat_instance_network_interface" {
   count = length(data.aws_instances.nat_instance.ids) > 0 ? 1 : 0
 
+  depends_on = [aws_network_interface.nat_instance_network_interface]
+
   filter {
     name   = "attachment.instance-id"
     values = [data.aws_instances.nat_instance.ids[0]]
