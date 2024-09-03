@@ -107,7 +107,7 @@ resource "aws_autoscaling_group" "nat_asg_vault" {
   max_size                  = 1
 
   launch_template {
-    id      = aws_launch_template.nat_instance.id
+    id      = aws_launch_template.nat_instance[0].id
     version = "$Latest"
   }
 
