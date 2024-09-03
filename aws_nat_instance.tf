@@ -42,7 +42,7 @@ data "aws_ami" "natinstance_ami" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami-vpc-nat-*"]
+    values = ["amzn-ami-vpc-nat*"]
   }
 }
 
@@ -50,7 +50,7 @@ data "aws_ami" "natinstance_ami" {
 # Build the NAT Instance
 resource "aws_instance" "nat-instance" {
   count       = var.create_nat_instance ? 1 : 0
-  ami                         = data.aws_ami.natinstance_ami.id
+  ami                         = "ami-024cf76afbc833688"
   instance_type               = "t3.small"
   subnet_id                   = aws_subnet.pub_subnet_a_principal[0].id
   vpc_security_group_ids      = [aws_security_group.sg-nat-instance[0].id]
