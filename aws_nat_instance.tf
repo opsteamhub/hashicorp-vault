@@ -36,42 +36,106 @@ resource "aws_security_group_rule" "outbound-nat-instance" {
 }
 
 
-#data "aws_ami" "natinstance_ami" {
-#  most_recent = true
-#  owners      = ["amazon"]
-#
-#  filter {
-#    name   = "name"
-#    values = ["amzn-ami-vpc-nat*"]
-#  }
-#  filter {
-#    name   = "owner-alias"
-#    values = ["amazon"]
-#  }  
-#}
+data "aws_ami" "natinstance_ami" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amzn-ami-vpc-nat*"]
+  }
+  filter {
+    name   = "owner-alias"
+    values = ["amazon"]
+  }  
+}
 
 
 # Build the NAT Instance
-resource "aws_instance" "nat-instance" {
-  count       = var.create_nat_instance ? 1 : 0
-  ami                         = "ami-024cf76afbc833688"
-  instance_type               = "t3.small"
-  subnet_id                   = aws_subnet.pub_subnet_a_principal[0].id
-  vpc_security_group_ids      = [aws_security_group.sg-nat-instance[0].id]
-  associate_public_ip_address = true
-  source_dest_check           = false
+#resource "aws_instance" "nat-instance" {
+#  count       = var.create_nat_instance ? 1 : 0
+#  ami                         = data.aws_ami.natinstance_ami.id
+#  instance_type               = "t3.small"
+#  subnet_id                   = aws_subnet.pub_subnet_a_principal[0].id
+#  vpc_security_group_ids      = [aws_security_group.sg-nat-instance[0].id]
+#  associate_public_ip_address = true
+#  source_dest_check           = false
+#
+#  # Root disk for NAT instance 
+#  root_block_device {
+#    volume_size = "8"
+#    volume_type = "gp3"
+#    encrypted   = true
+#  }
+#  tags = {
+#    "Name"          = join("-", ["nat-instance", local.vault_name])
+#    "ProvisionedBy" = local.provisioner
+#    "Squad"         = local.squad
+#    "Service"       = local.service
+#  }
+#}
 
-  # Root disk for NAT instance 
-  root_block_device {
-    volume_size = "8"
-    volume_type = "gp3"
-    encrypted   = true
+##ASG
+resource "aws_launch_template" "nat_instance" {
+  count       = var.create_nat_instance ? 1 : 0
+  name_prefix = join("-", ["lt", "nat", local.vault_name])
+
+  disable_api_termination = true
+
+  image_id = data.aws_ami.natinstance_ami.id
+
+  instance_initiated_shutdown_behavior = "terminate"
+
+  instance_type = "t3.small"
+
+  monitoring {
+    enabled = false
   }
-  tags = {
-    "Name"          = join("-", ["nat-instance", local.vault_name])
-    "ProvisionedBy" = local.provisioner
-    "Squad"         = local.squad
-    "Service"       = local.service
+
+  vpc_security_group_ids = [aws_security_group.sg-nat-instance[0].id]
+
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = {
+      Name = join("-", ["nat-instance", local.vault_name])
+    }
   }
 }
 
+resource "aws_autoscaling_group" "failure_analysis_ecs_asg_vault" {
+  name_prefix                = join("-", ["asg", "nat-instance", local.vault_name])
+  vpc_zone_identifier = [aws_subnet.pub_subnet_a_principal[0].id, aws_subnet.pub_subnet_b_principal[0].id]
+  desired_capacity          = 1
+  min_size                  = 1
+  max_size                  = 1
+
+  launch_template {
+    id      = aws_launch_template.nat_instance.id
+    version = "$Latest"
+  }
+
+  tag {
+    key                 = "Name"
+    value               = join("-", ["asg", "nat-instance", local.vault_name])
+    propagate_at_launch = true
+  }
+
+  tag {
+    key                 = "ProvisionedBy"
+    value               = local.provisioner
+    propagate_at_launch = true
+  }
+
+  tag {
+    key                 = "Squad"
+    value               = local.squad
+    propagate_at_launch = true
+  }
+
+  tag {
+    key                 = "Service"
+    value               = local.service
+    propagate_at_launch = true
+  }
+}
