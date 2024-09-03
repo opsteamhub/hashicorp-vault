@@ -1,5 +1,5 @@
 resource "aws_eip" "eip_principal" {
-  count = var.create_vpc ? 1 : 0
+  count = var.create_nat_instance ? 0 : 1
   vpc   = true
 
   tags = {

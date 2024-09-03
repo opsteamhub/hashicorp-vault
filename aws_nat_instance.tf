@@ -15,7 +15,7 @@ resource "aws_security_group" "sg-nat-instance" {
 
 # NAT Instance security group rule to allow all traffic from within the VPC
 resource "aws_security_group_rule" "vpc-inbound" {
-  count       = var.create_nat_instance ? 1 : 0
+  count             = var.create_nat_instance ? 1 : 0
   type              = "ingress"
   from_port         = 0
   to_port           = 0
@@ -27,7 +27,7 @@ resource "aws_security_group_rule" "vpc-inbound" {
 
 # NAT Instance security group rule to allow outbound traffic
 resource "aws_security_group_rule" "outbound-nat-instance" {
-  count       = var.create_nat_instance ? 1 : 0
+  count             = var.create_nat_instance ? 1 : 0
   type              = "egress"
   from_port         = 0
   to_port           = 0
@@ -45,7 +45,7 @@ data "aws_ami" "natinstance_ami" {
   filter {
     name   = "name"
     values = ["amzn-ami-vpc-nat*"]
-  } 
+  }
 }
 
 ##ASG
@@ -77,12 +77,12 @@ resource "aws_launch_template" "nat_instance" {
 }
 
 resource "aws_autoscaling_group" "nat_asg_vault" {
-  count       = var.create_nat_instance ? 1 : 0
-  name_prefix                = join("-", ["asg", "nat-instance", local.vault_name])
+  count               = var.create_nat_instance ? 1 : 0
+  name_prefix         = join("-", ["asg", "nat-instance", local.vault_name])
   vpc_zone_identifier = [aws_subnet.pub_subnet_a_principal[0].id, aws_subnet.pub_subnet_b_principal[0].id]
-  desired_capacity          = 1
-  min_size                  = 1
-  max_size                  = 1
+  desired_capacity    = 1
+  min_size            = 1
+  max_size            = 1
 
   launch_template {
     id      = aws_launch_template.nat_instance[0].id
