@@ -46,16 +46,9 @@ resource "aws_route_table" "private_principal" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id          = var.create_nat_instance == false ? aws_nat_gateway.nat_gateway_pub_a_principal[0].id : null
+    #gateway_id = aws_nat_gateway.nat_gateway_pub_a_principal[0].id
+    nat_gateway_id       = var.create_nat_instance == false ? aws_nat_gateway.nat_gateway_pub_a_principal[0].id : null
     network_interface_id = var.create_nat_instance == true && length(data.aws_network_interface.nat_instance_network_interface) > 0 ? data.aws_network_interface.nat_instance_network_interface[0].id : null
-  }
-  
-  # Certifique-se de que uma rota válida seja sempre criada.
-  lifecycle {
-    ignore_changes = [
-      route[0].gateway_id, 
-      route[0].network_interface_id
-    ]
   }
 
 
