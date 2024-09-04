@@ -267,8 +267,3 @@ variable "backup_lifecycle" {
 variable "backup_lifecycle_replica" {
   default = 30
 }
-
-variable "network_interface_id" {
-  description = "ID da Network Interface associada à instância NAT"
-  type        = string
-}
