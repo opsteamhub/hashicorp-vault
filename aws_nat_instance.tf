@@ -63,7 +63,7 @@ resource "aws_launch_template" "nat_instance" {
 
   network_interfaces {
     network_interface_id = aws_network_interface.nat_instance_network_interface[0].id
-    device_index         = 0
+    device_index         = 1
   }
 
   monitoring {
