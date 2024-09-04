@@ -48,7 +48,7 @@ resource "aws_route_table" "private_principal" {
     cidr_block = "0.0.0.0/0"
     #gateway_id = aws_nat_gateway.nat_gateway_pub_a_principal[0].id
     nat_gateway_id       = var.create_nat_instance == "false" ? aws_nat_gateway.nat_gateway_pub_a_principal[0].id : null
-    network_interface_id = var.create_nat_instance == "true" data.aws_network_interface.nat_instance_network_interface : null
+    network_interface_id = var.create_nat_instance == "true" ? data.aws_network_interface.nat_instance_network_interface.id : null
   }
 
   depends_on = [aws_network_interface.nat_instance_network_interface]
