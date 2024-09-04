@@ -171,6 +171,12 @@ resource "aws_network_interface_attachment" "nat_instance_attachment" {
   instance_id          = data.aws_instances.nat_instance.ids[0]
   network_interface_id = aws_network_interface.nat_instance_network_interface[0].id
   device_index         = 0 # Você pode alterar este valor conforme necessário
+
+  lifecycle {
+    ignore_changes = [
+      network_interface_id
+    ]
+  }  
 }
 
 
@@ -267,7 +273,7 @@ resource "aws_autoscaling_group" "nat_asg_vault_replica" {
   max_size           = 1
 
   launch_template {
-    id      = aws_launch_template.nat_instance[0]_replica.id
+    id      = aws_launch_template.nat_instance_replica[0].id
     version = "$Latest"
   }
 
@@ -350,4 +356,11 @@ resource "aws_network_interface_attachment" "nat_instance_attachment_replica" {
   instance_id          = data.aws_instances.nat_instance_replica.ids[0]
   network_interface_id = aws_network_interface.nat_instance_network_interface_replica[0].id
   device_index         = 0 # Você pode alterar este valor conforme necessário
+  
+  lifecycle {
+    ignore_changes = [
+      network_interface_id
+    ]
+  }
+
 }
