@@ -62,8 +62,8 @@ resource "aws_launch_template" "nat_instance" {
   instance_type = "t3.medium"
 
   network_interfaces {
-    network_interface_id = aws_network_interface.nat_instance_network_interface[0].id
-    device_index         = 1
+    device_index         = 0
+    network_interface_id = aws_network_interface.nat_instance_network_interface.id
   }
 
   monitoring {
