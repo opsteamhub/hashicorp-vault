@@ -70,7 +70,8 @@ resource "aws_launch_template" "nat_instance" {
     enabled = false
   }
 
-  vpc_security_group_ids = [aws_security_group.sg-nat-instance[0].id]
+
+  vpc_security_group_ids = var.create_nat_instance == "false" ? [aws_security_group.sg-nat-instance[0].id] : null
 
   tag_specifications {
     resource_type = "instance"
@@ -80,6 +81,7 @@ resource "aws_launch_template" "nat_instance" {
     }
   }
 }
+
 
 resource "aws_autoscaling_group" "nat_asg_vault" {
   count               = var.create_nat_instance ? 1 : 0
@@ -131,16 +133,20 @@ data "aws_instances" "nat_instance" {
   }
 }
 
-data "aws_network_interface" "nat_instance_network_interface" {
-  count = length(data.aws_instances.nat_instance.ids) > 0 ? 1 : 0
+resource "aws_network_interface" "nat_instance_network_interface" {
+  count             = var.create_nat_instance ? 1 : 0
+  subnet_id         = aws_subnet.pub_subnet_b_principal[0].id
+  security_groups   = [aws_security_group.sg-nat-instance[0].id]
+  source_dest_check = false
 
-  depends_on = [aws_network_interface.nat_instance_network_interface]
-
-  filter {
-    name   = "attachment.instance-id"
-    values = [data.aws_instances.nat_instance.ids[0]]
+  tags = {
+    "Name"          = join("-", ["eni", "nat-instance", local.vault_name])
+    "ProvisionedBy" = local.provisioner
+    "Squad"         = local.squad
+    "Service"       = local.service
   }
 }
+
 
 resource "aws_eip" "nat_instance_eip" {
   count = var.create_nat_instance ? 1 : 0
