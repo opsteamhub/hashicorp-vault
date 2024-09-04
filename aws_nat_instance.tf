@@ -133,21 +133,6 @@ data "aws_instances" "nat_instance" {
   }
 }
 
-resource "aws_network_interface" "nat_instance_network_interface" {
-  count             = var.create_nat_instance ? 1 : 0
-  subnet_id         = aws_subnet.pub_subnet_b_principal[0].id
-  security_groups   = [aws_security_group.sg-nat-instance[0].id]
-  source_dest_check = false
-
-  tags = {
-    "Name"          = join("-", ["eni", "nat-instance", local.vault_name])
-    "ProvisionedBy" = local.provisioner
-    "Squad"         = local.squad
-    "Service"       = local.service
-  }
-}
-
-
 resource "aws_eip" "nat_instance_eip" {
   count = var.create_nat_instance ? 1 : 0
   vpc   = true
