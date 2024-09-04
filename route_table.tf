@@ -51,8 +51,6 @@ resource "aws_route_table" "private_principal" {
     network_interface_id = var.create_nat_instance == true ? data.aws_network_interface.nat_instance_network_interface[0].id : null
   }
 
-  depends_on = [aws_network_interface.nat_instance_network_interface]
-
   dynamic "route" {
     for_each = var.routes_principal
     content {
