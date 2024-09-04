@@ -362,12 +362,12 @@ resource "aws_eip_association" "nat_instance_eip_assoc_replica" {
 }
 
 resource "aws_network_interface_attachment" "nat_instance_attachment_replica" {
-  count    = var.create_nat_instance && var.create_replica && length(data.aws_instances.nat_instance_replica.ids) > 0 ? 1 : 0
+  count = var.create_nat_instance && var.create_replica && length(data.aws_instances.nat_instance_replica.ids) > 0 && length(data.aws_network_interface.existing_attachment.*.id) == 0 ? 1 : 0
   provider = aws.replica
 
   instance_id          = data.aws_instances.nat_instance_replica.ids[0]
   network_interface_id = aws_network_interface.nat_instance_network_interface_replica[0].id
-  device_index         = 0 # Você pode alterar este valor conforme necessário
+  device_index         = 0
 
   lifecycle {
     create_before_destroy = true
@@ -375,5 +375,18 @@ resource "aws_network_interface_attachment" "nat_instance_attachment_replica" {
       network_interface_id
     ]
   }
+}
 
+data "aws_network_interface" "existing_attachment" {
+  count = var.create_nat_instance && var.create_replica && length(data.aws_instances.nat_instance_replica.ids) > 0 ? 1 : 0
+
+  filter {
+    name   = "attachment.instance-id"
+    values = [data.aws_instances.nat_instance_replica.ids[0]]
+  }
+
+  filter {
+    name   = "attachment.device-index"
+    values = ["0"]
+  }
 }
