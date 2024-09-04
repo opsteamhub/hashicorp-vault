@@ -63,14 +63,14 @@ resource "aws_launch_template" "nat_instance" {
 
   network_interfaces {
     network_interface_id = aws_network_interface.nat_instance_network_interface[0].id
-    device_index         = 0
+    device_index         = 1
   }
 
   monitoring {
     enabled = false
   }
 
-  #vpc_security_group_ids = [aws_security_group.sg-nat-instance[0].id]
+  vpc_security_group_ids = [aws_security_group.sg-nat-instance[0].id]
 
   tag_specifications {
     resource_type = "instance"
@@ -179,4 +179,3 @@ resource "aws_network_interface_attachment" "nat_instance_attachment" {
   network_interface_id = aws_network_interface.nat_instance_network_interface[0].id
   device_index         = 1 # Você pode alterar este valor conforme necessário
 }
-
