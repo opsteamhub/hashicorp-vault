@@ -173,6 +173,7 @@ resource "aws_network_interface_attachment" "nat_instance_attachment" {
   device_index         = 0 # Você pode alterar este valor conforme necessário
 
   lifecycle {
+    create_before_destroy = true
     ignore_changes = [
       network_interface_id
     ]
@@ -369,6 +370,7 @@ resource "aws_network_interface_attachment" "nat_instance_attachment_replica" {
   device_index         = 0 # Você pode alterar este valor conforme necessário
 
   lifecycle {
+    create_before_destroy = true
     ignore_changes = [
       network_interface_id
     ]
