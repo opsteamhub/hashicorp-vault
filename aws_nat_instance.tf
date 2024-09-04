@@ -228,15 +228,9 @@ data "aws_ami" "natinstance_ami_replica" {
   owners      = ["amazon"]
 
   filter {
-    name   = "name"
+    name   = "Name"
     values = ["amzn-ami-vpc-nat*"]
   }
-
- filter {
-   name   = "owner-alias"
-   values = ["amazon"]
- }
-
 }
 
 ##ASG
