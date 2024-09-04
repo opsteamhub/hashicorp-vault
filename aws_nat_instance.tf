@@ -177,5 +177,5 @@ resource "aws_network_interface_attachment" "nat_instance_attachment" {
 
   instance_id          = data.aws_instances.nat_instance.ids[0]
   network_interface_id = aws_network_interface.nat_instance_network_interface[0].id
-  device_index         = 1 # Você pode alterar este valor conforme necessário
+  device_index         = 0 # Você pode alterar este valor conforme necessário
 }
