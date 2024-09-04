@@ -53,11 +53,7 @@ resource "aws_launch_template" "nat_instance" {
   count       = var.create_nat_instance ? 1 : 0
   name_prefix = join("-", ["lt", "nat", local.vault_name])
 
-  disable_api_termination = true
-
   image_id = data.aws_ami.natinstance_ami.id
-
-  instance_initiated_shutdown_behavior = "terminate"
 
   instance_type = "t3.medium"
 
@@ -72,8 +68,6 @@ resource "aws_launch_template" "nat_instance" {
   lifecycle {
     create_before_destroy = true
   }
-
-  vpc_security_group_ids = [aws_security_group.sg-nat-instance[0].id]
 
   tag_specifications {
     resource_type = "instance"
