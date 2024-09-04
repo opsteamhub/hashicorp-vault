@@ -231,6 +231,12 @@ data "aws_ami" "natinstance_ami_replica" {
     name   = "name"
     values = ["amzn-ami-vpc-nat*"]
   }
+
+ filter {
+   name   = "owner-alias"
+   values = ["amazon"]
+ }
+
 }
 
 ##ASG
@@ -356,7 +362,7 @@ resource "aws_network_interface_attachment" "nat_instance_attachment_replica" {
   instance_id          = data.aws_instances.nat_instance_replica.ids[0]
   network_interface_id = aws_network_interface.nat_instance_network_interface_replica[0].id
   device_index         = 0 # Você pode alterar este valor conforme necessário
-  
+
   lifecycle {
     ignore_changes = [
       network_interface_id
