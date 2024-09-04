@@ -362,7 +362,7 @@ resource "aws_eip_association" "nat_instance_eip_assoc_replica" {
 }
 
 resource "aws_network_interface_attachment" "nat_instance_attachment_replica" {
-  count = var.create_nat_instance && var.create_replica && length(data.aws_instances.nat_instance_replica.ids) > 0 && length(data.aws_network_interface.existing_attachment.*.id) == 0 ? 1 : 0
+  count = var.create_nat_instance && var.create_replica && length(data.aws_instances.nat_instance_replica.ids) > 0 && length(data.aws_network_interfaces.existing_attachments[0].ids) == 0 ? 1 : 0
   provider = aws.replica
 
   instance_id          = data.aws_instances.nat_instance_replica.ids[0]
@@ -377,7 +377,8 @@ resource "aws_network_interface_attachment" "nat_instance_attachment_replica" {
   }
 }
 
-data "aws_network_interface" "existing_attachment" {
+
+data "aws_network_interfaces" "existing_attachments" {
   count = var.create_nat_instance && var.create_replica && length(data.aws_instances.nat_instance_replica.ids) > 0 ? 1 : 0
 
   filter {
