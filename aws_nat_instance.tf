@@ -69,6 +69,9 @@ resource "aws_launch_template" "nat_instance" {
   monitoring {
     enabled = false
   }
+  lifecycle {
+    create_before_destroy = true
+  }
 
   vpc_security_group_ids = [aws_security_group.sg-nat-instance[0].id]
 
@@ -93,6 +96,10 @@ resource "aws_autoscaling_group" "nat_asg_vault" {
   launch_template {
     id      = aws_launch_template.nat_instance[0].id
     version = "$Latest"
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 
   tag {
