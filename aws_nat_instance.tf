@@ -71,7 +71,7 @@ resource "aws_launch_template" "nat_instance" {
   }
 
 
-  vpc_security_group_ids = var.create_nat_instance == "false" ? [aws_security_group.sg-nat-instance[0].id] : null
+  #vpc_security_group_ids = var.create_nat_instance == "false" ? [aws_security_group.sg-nat-instance[0].id] : null
 
   tag_specifications {
     resource_type = "instance"
