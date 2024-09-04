@@ -21,7 +21,7 @@ resource "aws_security_group_rule" "vpc-inbound" {
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
   ipv6_cidr_blocks  = ["::/0"]
-  security_group_id = aws_security_group.sg-nat-instance.id
+  security_group_id = aws_security_group.sg-nat-instance[0].id
 }
 
 # NAT Instance security group rule to allow outbound traffic
@@ -33,7 +33,7 @@ resource "aws_security_group_rule" "outbound-nat-instance" {
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
   ipv6_cidr_blocks  = ["::/0"]
-  security_group_id = aws_security_group.sg-nat-instance.id
+  security_group_id = aws_security_group.sg-nat-instance[0].id
 }
 
 # Get the latest NAT AMI
@@ -51,7 +51,7 @@ data "aws_ami" "natinstance_ami" {
 resource "aws_network_interface" "nat_instance_network_interface" {
   count             = var.create_nat_instance ? 1 : 0
   subnet_id         = aws_subnet.pub_subnet_b_principal[0].id
-  security_groups   = [aws_security_group.sg-nat-instance.id]
+  security_groups   = [aws_security_group.sg-nat-instance[0].id]
   source_dest_check = false
 
   tags = {
