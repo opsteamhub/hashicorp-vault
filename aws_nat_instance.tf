@@ -245,7 +245,7 @@ resource "aws_launch_template" "nat_instance_replica" {
 
   image_id = data.aws_ami.natinstance_ami_replica.id
 
-  instance_type = "t3.medium"
+  instance_type = "t3.small"
 
   network_interfaces {
     network_interface_id = aws_network_interface.nat_instance_network_interface_replica[0].id
