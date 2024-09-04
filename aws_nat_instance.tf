@@ -229,7 +229,7 @@ data "aws_ami" "natinstance_ami_replica" {
 
   filter {
     name   = "name"
-    values = ["amzn-ami-vpc-nat*"]
+    values = ["amzn-ami-vpc-nat-*"]
   }
 }
 
