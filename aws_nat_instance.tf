@@ -273,7 +273,7 @@ resource "aws_autoscaling_group" "nat_asg_vault_replica" {
   provider    = aws.replica
   name_prefix = join("-", ["asg", "nat-instance", local.vault_name])
   #vpc_zone_identifier = [aws_subnet.pub_subnet_a_principal[0].id]
-  availability_zones = ["us-east-1a"]
+  availability_zones = ["eu-weast-1a"]
   desired_capacity   = 1
   min_size           = 1
   max_size           = 1
