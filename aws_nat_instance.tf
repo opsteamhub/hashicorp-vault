@@ -168,6 +168,14 @@ resource "aws_network_interface_attachment" "nat_instance_attachment" {
 
   instance_id          = data.aws_instances.nat_instance.ids[0]
   network_interface_id = aws_network_interface.nat_instance_network_interface[0].id
-  device_index         = 1 # Você pode alterar este valor conforme necessário
+  device_index         = 1
 }
 
+data "aws_network_interface" "nat_instance_network_interface" {
+  count = var.create_nat_instance ? 1 : 0
+  id    = aws_network_interface.nat_instance_network_interface[0].id
+}
+
+output "network_interface_id" {
+  value = aws_network_interface.nat_instance_network_interface[0].id
+}
