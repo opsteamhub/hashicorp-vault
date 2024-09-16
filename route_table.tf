@@ -65,13 +65,13 @@ resource "aws_route_table" "private_principal" {
 }
 
 resource "aws_route" "route_with_nat_gateway_principal" {
-  count = var.create_nat_gateway && var.create_vpc ? 1 : 0
+  count = (var.create_nat_gateway ? 0 : 1) * (var.create_vpc ? 1 : 0)
 
   route_table_id         = aws_route_table.private_principal[0].id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.nat_gateway_pub_a_principal[0].id
 
-  depends_on = [aws_route_table.private_principal]
+  depends_on = [aws_route_table.private_principal, aws_nat_gateway.nat_gateway_pub_a_principal]
 }
 
 resource "aws_route" "route_with_network_interface_principal" {
