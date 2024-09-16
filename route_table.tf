@@ -71,7 +71,7 @@ resource "aws_route" "route_with_nat_gateway_principal" {
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.nat_gateway_pub_a_principal[0].id
 
-  depends_on = [aws_route_table.private_principal, aws_nat_gateway.nat_gateway_pub_a_principal]
+  depends_on = [aws_route_table.private_principal, aws_route_table_association.route_table_association_pri_a_principal]
 }
 
 resource "aws_route" "route_with_network_interface_principal" {
@@ -81,7 +81,7 @@ resource "aws_route" "route_with_network_interface_principal" {
   destination_cidr_block    = "0.0.0.0/0"
   network_interface_id      = aws_network_interface.nat_instance_network_interface[0].id
 
-  depends_on = [aws_route_table.private_principal]
+  depends_on = [aws_route_table.private_principal, aws_route_table_association.route_table_association_pri_a_principal]
 }
 
 resource "aws_route_table_association" "route_table_association_pri_a_principal" {
