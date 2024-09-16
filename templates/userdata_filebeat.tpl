@@ -36,6 +36,9 @@ filebeat.inputs:
   paths:
     - /var/log/*.log
     - /mnt/vault/logs/vault_audit.log   # Adiciona o log do Vault para ser monitorado
+  fields:
+    log_topics: "${cluster_vault}"
+  fields_under_root: true    
 
 output.elasticsearch:
   hosts: ["${ELASTICSEARCH_HOST}"]
