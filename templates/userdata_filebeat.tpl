@@ -30,34 +30,23 @@ systemctl enable filebeat
 
 # Configura o Filebeat (altere os valores de host, username e password abaixo)
 tee /etc/filebeat/filebeat.yml > /dev/null <<EOL
+filebeat.modules:
 filebeat.inputs:
-- type: log
+- type: filestream
+  id: "${cluster_vault}"
   enabled: true
   paths:
-    - /var/log/*.log
-    - /mnt/vault/logs/vault_audit.log   # Adiciona o log do Vault para ser monitorado
-  fields:
-    log_topics: "${cluster_vault}"
-  fields_under_root: true    
+    - /mnt/vault/logs/vault_audit.log  
+ 
+setup.template.name: "${cluster_vault}"
+setup.template.pattern: "${cluster_vault}-*"
 
 output.elasticsearch:
   hosts: ["${ELASTICSEARCH_HOST}"]
   username: "${ELASTICSEARCH_USERNAME}"
   password: "${ELASTICSEARCH_PASSWORD}"
   ssl.verification_mode: ${ELASTICSEARCH_SSL_VERIFICATION_MODE}
-
-processors:
-  # Ignora linhas que começam com #
-  - drop_event:
-      when:
-        regexp:
-          message: "^\s*#.*"
-
-  - add_host_metadata:
-      when.not.contains.tags: forwarded
-  - add_cloud_metadata: ~
-  - add_docker_metadata: ~
-  - add_kubernetes_metadata: ~
+  index: "${cluster_vault}-%{+yyyy.MM.dd}"
 EOL
 
 # Inicia o serviço do Filebeat
