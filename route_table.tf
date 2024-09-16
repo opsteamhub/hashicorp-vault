@@ -65,7 +65,7 @@ resource "aws_route_table" "private_principal" {
 }
 
 resource "aws_route" "route_with_nat_gateway_principal" {
-  count = var.create_nat_instance ? 0 : 1
+  count = var.create_nat_instance ? 1 : 0
 
   route_table_id         = aws_route_table.private_principal[0].id
   destination_cidr_block = "0.0.0.0/0"
@@ -73,7 +73,7 @@ resource "aws_route" "route_with_nat_gateway_principal" {
 }
 
 resource "aws_route" "route_with_network_interface_principal" {
-  count = var.create_nat_instance ? 1 : 0
+  count = var.create_nat_instance ? 0 : 1
 
   route_table_id            = aws_route_table.private_principal[0].id
   destination_cidr_block    = "0.0.0.0/0"
@@ -128,14 +128,14 @@ resource "aws_route_table" "public_replica" {
 }
 
 resource "aws_route_table_association" "route_table_association_pub_a_replica" {
-  count          = var.create_replica ? 1 : 0
+  count          = var.create_replica ? 0 : 1
   provider       = aws.replica
   subnet_id      = aws_subnet.pub_subnet_a_replica[0].id
   route_table_id = aws_route_table.public_replica[0].id
 }
 
 resource "aws_route_table_association" "route_table_association_pub_b_replica" {
-  count          = var.create_replica ? 1 : 0
+  count          = var.create_replica ? 0 : 1
   provider       = aws.replica
   subnet_id      = aws_subnet.pub_subnet_b_replica[0].id
   route_table_id = aws_route_table.public_replica[0].id
