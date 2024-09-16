@@ -140,7 +140,7 @@ resource "aws_route_table" "private_replica" {
   vpc_id   = aws_vpc.vpc_replica[0].id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block           = "0.0.0.0/0"
     nat_gateway_id       = var.create_nat_instance == false ? aws_nat_gateway.nat_gateway_pub_a_replica[0].id : null
     network_interface_id = var.create_nat_instance == true ? aws_network_interface.nat_instance_network_interface_replica[0].id : null
   }

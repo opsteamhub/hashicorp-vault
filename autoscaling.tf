@@ -72,15 +72,15 @@ resource "aws_launch_template" "vault" {
   }
 
   user_data = var.enabled_filebeat == false ? base64encode(templatefile("${path.module}/templates/userdata_cloudwatch.tpl", {
-    cluster_vault = local.vault_name
+    cluster_vault    = local.vault_name
     region_principal = var.region_principal
-    log_group_name = local.log_name
+    log_group_name   = local.log_name
 
-  })) : base64encode(templatefile("${path.module}/templates/userdata_filebeat.tpl", {
-    FILEBEAT_VERSION = var.filebeat_version
-    ELASTICSEARCH_HOST = var.elasticsearch_host
-    ELASTICSEARCH_USERNAME = var.elasticsearch_username
-    ELASTICSEARCH_PASSWORD = var.elasticsearch_password
+    })) : base64encode(templatefile("${path.module}/templates/userdata_filebeat.tpl", {
+    FILEBEAT_VERSION                    = var.filebeat_version
+    ELASTICSEARCH_HOST                  = var.elasticsearch_host
+    ELASTICSEARCH_USERNAME              = var.elasticsearch_username
+    ELASTICSEARCH_PASSWORD              = var.elasticsearch_password
     ELASTICSEARCH_SSL_VERIFICATION_MODE = var.elasticsearch_ssl_verification_mode
 
   }))
