@@ -22,21 +22,25 @@ data "aws_ami" "amazon_linux_ecs" {
   }
 }
 
-data "aws_ami" "amazon_linux_ecs_replica" {
-  provider    = aws.replica
-  most_recent = true
+#data "aws_ami" "amazon_linux_ecs_replica" {
+#  provider    = aws.replica
+#  most_recent = true
+#
+#  owners = ["amazon"]
+#
+#  filter {
+#    name   = "name"
+#    values = ["amzn-ami-*-amazon-ecs-optimized"]
+#  }
+#
+#  filter {
+#    name   = "owner-alias"
+#    values = ["amazon"]
+#  }
+#}
 
-  owners = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = ["amzn-ami-*-amazon-ecs-optimized"]
-  }
-
-  filter {
-    name   = "owner-alias"
-    values = ["amazon"]
-  }
+data "aws_ssm_parameter" "ecs_node_ami" {
+  name = "/aws/service/ecs/optimized-ami/amazon-linux-2/recommended/image_id"
 }
 
 resource "aws_launch_template" "vault" {
@@ -44,7 +48,7 @@ resource "aws_launch_template" "vault" {
 
   disable_api_termination = true
 
-  image_id = data.aws_ami.amazon_linux_ecs.id
+  image_id = data.aws_ssm_parameter.ecs_node_ami.value
 
   instance_initiated_shutdown_behavior = "terminate"
 
@@ -165,7 +169,7 @@ resource "aws_launch_template" "replica" {
 
   disable_api_termination = true
 
-  image_id = data.aws_ami.amazon_linux_ecs_replica.id
+  image_id = data.aws_ssm_parameter.ecs_node_ami.value
 
   instance_initiated_shutdown_behavior = "terminate"
 
