@@ -169,7 +169,7 @@ resource "aws_route_table" "private_replica" {
 
 resource "aws_route" "route_with_nat_gateway_replica" {
   count = var.create_nat_instance ? 0 : (var.create_replica ? 1 : 0)
-
+  provider = aws.replica
   route_table_id         = aws_route_table.private_replica[0].id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.nat_gateway_pub_a_replica[0].id
@@ -177,7 +177,7 @@ resource "aws_route" "route_with_nat_gateway_replica" {
 
 resource "aws_route" "route_with_network_interface_replica" {
   count = var.create_nat_instance ? (var.create_replica ? 0 : 1) : (var.create_replica ? 1 : 0)
-
+  provider = aws.replica
   route_table_id            = aws_route_table.private_replica[0].id
   destination_cidr_block    = "0.0.0.0/0"
   network_interface_id      = aws_network_interface.nat_instance_network_interface_replica[0].id
