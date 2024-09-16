@@ -79,12 +79,10 @@
     "dockerSecurityOptions": [],
     "pseudoTerminal": false                  
   }
-  "volumes": [
-    {
-      "name": "vault-logs",
-      "host": {
-          "sourcePath": "/mnt/vault/logs"
-      }
-    }
-  ]    
+  "volume": {
+    "name": "vault-logs",
+    "host": {
+        "sourcePath": "/mnt/vault/logs"
+    }    
+  }   
 ]
