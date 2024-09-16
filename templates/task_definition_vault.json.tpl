@@ -43,15 +43,7 @@
         "name": "AWS_REGION",
         "value": "${region}"
       }                                                         
-    ],
-    "volumes": [
-      {
-        "name": "vault-logs",
-        "host": {
-            "sourcePath": "/mnt/vault/logs"
-        }
-      }
-    ],     
+    ],  
     "mountPoints": [
         {
             "sourceVolume": "vault-logs",
@@ -87,4 +79,12 @@
     "dockerSecurityOptions": [],
     "pseudoTerminal": false                  
   }
+  "volumes": [
+    {
+      "name": "vault-logs",
+      "host": {
+          "sourcePath": "/mnt/vault/logs"
+      }
+    }
+  ]    
 ]
