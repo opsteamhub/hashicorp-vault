@@ -193,10 +193,10 @@ resource "aws_launch_template" "replica" {
   }
 
   user_data = var.enabled_filebeat == false ? base64encode(templatefile("${path.module}/templates/userdata_cloudwatch.tpl", {
-    cluster_vault = var.project_name
+    cluster_vault    = var.project_name
     region_principal = var.region_principal
     log_group_name   = local.log_name
-  })) : base64encode(templatefile("${path.module}/templates/userdata_filebeat.tpl", {
+    })) : base64encode(templatefile("${path.module}/templates/userdata_filebeat.tpl", {
     cluster_vault                       = var.project_name
     FILEBEAT_VERSION                    = var.filebeat_config.filebeat_version
     ELASTICSEARCH_HOST                  = var.filebeat_config.elasticsearch_host

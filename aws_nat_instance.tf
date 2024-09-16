@@ -39,6 +39,7 @@ resource "aws_security_group_rule" "outbound-nat-instance" {
 
 
 data "aws_ami" "natinstance_ami" {
+  count       = var.create_nat_instance ? 1 : 0
   most_recent = true
   owners      = ["self"]
 
@@ -122,6 +123,7 @@ resource "aws_autoscaling_group" "nat_asg_vault" {
 }
 
 data "aws_instances" "nat_instance" {
+  count = var.create_nat_instance ? 1 : 0
   filter {
     name   = "tag:Name"
     values = [join("-", ["asg", "nat-instance", local.vault_name])]

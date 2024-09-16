@@ -46,10 +46,10 @@ resource "aws_ecs_task_definition" "task_definition_vault" {
     Squad         = local.squad
     Service       = local.service
   }
-  volume  {
+  volume {
     name      = "vault-logs"
     host_path = "/mnt/vault/logs"
-  }    
+  }
 }
 
 ###
@@ -66,9 +66,9 @@ resource "aws_ecs_task_definition" "task_definition_vault_replica" {
     Squad         = local.squad
     Service       = local.service
   }
-  volume  {
+  volume {
     name      = "vault-logs"
     host_path = "/mnt/vault/logs"
-  } 
+  }
 }
 
