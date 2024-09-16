@@ -82,7 +82,6 @@ resource "aws_launch_template" "vault" {
     ELASTICSEARCH_USERNAME              = var.elasticsearch_username
     ELASTICSEARCH_PASSWORD              = var.elasticsearch_password
     ELASTICSEARCH_SSL_VERIFICATION_MODE = var.elasticsearch_ssl_verification_mode
-
   }))
 }
 
@@ -192,8 +191,16 @@ resource "aws_launch_template" "replica" {
     }
   }
 
-  user_data = base64encode(templatefile("${path.module}/templates/user_data.tpl", {
+  user_data = var.enabled_filebeat == false ? base64encode(templatefile("${path.module}/templates/userdata_cloudwatch.tpl", {
     cluster_vault = var.project_name
+    region_principal = var.region_principal
+    log_group_name   = local.log_name
+  })) : base64encode(templatefile("${path.module}/templates/userdata_filebeat.tpl", {
+    FILEBEAT_VERSION                    = var.filebeat_version
+    ELASTICSEARCH_HOST                  = var.elasticsearch_host
+    ELASTICSEARCH_USERNAME              = var.elasticsearch_username
+    ELASTICSEARCH_PASSWORD              = var.elasticsearch_password
+    ELASTICSEARCH_SSL_VERIFICATION_MODE = var.elasticsearch_ssl_verification_mode
   }))
 }
 
