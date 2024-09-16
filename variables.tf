@@ -268,26 +268,18 @@ variable "backup_lifecycle_replica" {
   default = 30
 }
 
-variable "filebeat_version" {
-  default = "8.1.2"
-}
-
-variable "elasticsearch_host" {
-  default = "https://elasticsearch:9200"
-}
-
-variable "elasticsearch_username" {
-  default = "elastic"
-}
-
-variable "elasticsearch_password" {
-  default = "changeme"
-}
-
-variable "elasticsearch_ssl_verification_mode" {
-  default = "none"
-}
-
 variable "enabled_filebeat" {
   default = false
+}
+
+variable "filebeat_config" {
+  type = object({
+    filebeat_version                    = optional(string, "8.1.2")
+    elasticsearch_host                  = optional(string, "https://elasticsearch:9200")
+    elasticsearch_username              = optional(string, "elastic")
+    elasticsearch_password              = optional(string, "changeme")
+    elasticsearch_ssl_verification_mode = optional(string, "none")
+  })
+
+  default = {}
 }

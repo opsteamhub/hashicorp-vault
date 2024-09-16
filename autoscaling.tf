@@ -78,11 +78,11 @@ resource "aws_launch_template" "vault" {
 
     })) : base64encode(templatefile("${path.module}/templates/userdata_filebeat.tpl", {
     cluster_vault                       = var.project_name
-    FILEBEAT_VERSION                    = var.filebeat_version
-    ELASTICSEARCH_HOST                  = var.elasticsearch_host
-    ELASTICSEARCH_USERNAME              = var.elasticsearch_username
-    ELASTICSEARCH_PASSWORD              = var.elasticsearch_password
-    ELASTICSEARCH_SSL_VERIFICATION_MODE = var.elasticsearch_ssl_verification_mode
+    FILEBEAT_VERSION                    = var.filebeat_config.filebeat_version
+    ELASTICSEARCH_HOST                  = var.filebeat_config.elasticsearch_host
+    ELASTICSEARCH_USERNAME              = var.filebeat_config.elasticsearch_username
+    ELASTICSEARCH_PASSWORD              = var.filebeat_config.elasticsearch_password
+    ELASTICSEARCH_SSL_VERIFICATION_MODE = var.filebeat_config.elasticsearch_ssl_verification_mode
   }))
 }
 
@@ -198,11 +198,11 @@ resource "aws_launch_template" "replica" {
     log_group_name   = local.log_name
   })) : base64encode(templatefile("${path.module}/templates/userdata_filebeat.tpl", {
     cluster_vault                       = var.project_name
-    FILEBEAT_VERSION                    = var.filebeat_version
-    ELASTICSEARCH_HOST                  = var.elasticsearch_host
-    ELASTICSEARCH_USERNAME              = var.elasticsearch_username
-    ELASTICSEARCH_PASSWORD              = var.elasticsearch_password
-    ELASTICSEARCH_SSL_VERIFICATION_MODE = var.elasticsearch_ssl_verification_mode
+    FILEBEAT_VERSION                    = var.filebeat_config.filebeat_version
+    ELASTICSEARCH_HOST                  = var.filebeat_config.elasticsearch_host
+    ELASTICSEARCH_USERNAME              = var.filebeat_config.elasticsearch_username
+    ELASTICSEARCH_PASSWORD              = var.filebeat_config.elasticsearch_password
+    ELASTICSEARCH_SSL_VERIFICATION_MODE = var.filebeat_config.elasticsearch_ssl_verification_mode
   }))
 }
 
