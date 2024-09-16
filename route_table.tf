@@ -177,6 +177,7 @@ resource "aws_route" "route_with_nat_gateway_replica" {
   route_table_id         = aws_route_table.private_replica[0].id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.nat_gateway_pub_a_replica[0].id
+  depends_on = [aws_route_table.private_replica]
 }
 
 resource "aws_route" "route_with_network_interface_replica" {
@@ -185,6 +186,7 @@ resource "aws_route" "route_with_network_interface_replica" {
   route_table_id            = aws_route_table.private_replica[0].id
   destination_cidr_block    = "0.0.0.0/0"
   network_interface_id      = aws_network_interface.nat_instance_network_interface_replica[0].id
+  depends_on = [aws_route_table.private_replica]
 }
 
 resource "aws_route_table_association" "route_table_association_pri_a_replica" {
