@@ -54,7 +54,7 @@ resource "aws_launch_template" "nat_instance" {
   count       = var.create_nat_instance ? 1 : 0
   name_prefix = join("-", ["lt", "nat", local.vault_name])
 
-  image_id = data.aws_ami.natinstance_ami.id
+  image_id = data.aws_ami.natinstance_ami[0].id
 
   instance_type = "t3.medium"
 
@@ -233,6 +233,7 @@ resource "aws_security_group_rule" "outbound-nat-instance_replica" {
 
 
 data "aws_ami" "natinstance_ami_replica" {
+  count       = var.create_nat_instance && var.create_replica ? 1 : 0
   provider    = aws.replica
   most_recent = true
   owners      = ["amazon"]
@@ -249,7 +250,7 @@ resource "aws_launch_template" "nat_instance_replica" {
   provider    = aws.replica
   name_prefix = join("-", ["lt", "nat", local.vault_name])
 
-  image_id = data.aws_ami.natinstance_ami_replica.id
+  image_id = data.aws_ami.natinstance_ami_replica[0].id
 
   instance_type = "t3.small"
 
