@@ -65,7 +65,7 @@ resource "aws_route_table" "private_principal" {
 }
 
 resource "aws_route" "route_with_nat_gateway_principal" {
-  count = (var.create_nat_instance ? 0 : 1) * (var.create_vpc ? 1 : 0)
+  count = var.create_nat_gateway && var.create_vpc ? 1 : 0
 
   route_table_id         = aws_route_table.private_principal[0].id
   destination_cidr_block = "0.0.0.0/0"
@@ -75,7 +75,7 @@ resource "aws_route" "route_with_nat_gateway_principal" {
 }
 
 resource "aws_route" "route_with_network_interface_principal" {
-  count = (var.create_nat_instance ? 1 : 0) * (var.create_vpc ? 1 : 0)
+  count = var.create_nat_instance && var.create_vpc ? 1 : 0
 
   route_table_id            = aws_route_table.private_principal[0].id
   destination_cidr_block    = "0.0.0.0/0"
@@ -172,7 +172,7 @@ resource "aws_route_table" "private_replica" {
 }
 
 resource "aws_route" "route_with_nat_gateway_replica" {
-  count = (var.create_nat_instance ? 0 : 1) * (var.create_replica ? 1 : 0)
+  count = var.create_nat_gateway && var.create_replica ? 1 : 0
   provider = aws.replica
   route_table_id         = aws_route_table.private_replica[0].id
   destination_cidr_block = "0.0.0.0/0"
@@ -181,7 +181,7 @@ resource "aws_route" "route_with_nat_gateway_replica" {
 }
 
 resource "aws_route" "route_with_network_interface_replica" {
-  count = (var.create_nat_instance ? 1 : 0) * (var.create_replica ? 1 : 0)
+  count = var.create_nat_instance && var.create_replica ? 1 : 0
   provider = aws.replica
   route_table_id            = aws_route_table.private_replica[0].id
   destination_cidr_block    = "0.0.0.0/0"

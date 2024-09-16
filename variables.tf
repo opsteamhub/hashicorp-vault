@@ -283,3 +283,7 @@ variable "filebeat_config" {
 
   default = {}
 }
+
+variable "create_nat_gateway" {
+  default = true
+}
