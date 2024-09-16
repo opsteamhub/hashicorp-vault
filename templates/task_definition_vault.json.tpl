@@ -44,6 +44,14 @@
         "value": "${region}"
       }                                                         
     ],
+    "volumes": [
+      {
+        "name": "vault-logs",
+        "host": {
+            "sourcePath": "/mnt/vault/logs"
+        }
+      }
+    ],     
     "mountPoints": [
         {
             "sourceVolume": "vault-logs",
@@ -71,15 +79,7 @@
         "awslogs-region": "${region}",
         "awslogs-stream-prefix": "ecs"
       }
-    },    
-    "volumes": [
-      {
-        "name": "vault-logs",
-        "host": {
-            "sourcePath": "/mnt/vault/logs"
-        }
-      }
-    ],         
+    },            
     "privileged": false,
     "readonlyRootFilesystem": false,
     "dnsServers": [],
