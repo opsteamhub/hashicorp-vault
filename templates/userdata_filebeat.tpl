@@ -35,7 +35,7 @@ filebeat.inputs:
   enabled: true
   paths:
     - /var/log/*.log
-    - /vault/logs/vault_audit.log   # Adiciona o log do Vault para ser monitorado
+    - /mnt/vault/logs/vault_audit.log   # Adiciona o log do Vault para ser monitorado
 
 output.elasticsearch:
   hosts: ["${ELASTICSEARCH_HOST}"]

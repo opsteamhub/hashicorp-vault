@@ -73,12 +73,12 @@
       }
     },    
     "volumes": [
-        {
-            "name": "vault-logs",
-            "host": {
-                "sourcePath": "/vault/logs"
-            }
+      {
+        "name": "vault-logs",
+        "host": {
+            "sourcePath": "/mnt/vault/logs"
         }
+      }
     ],         
     "privileged": false,
     "readonlyRootFilesystem": false,

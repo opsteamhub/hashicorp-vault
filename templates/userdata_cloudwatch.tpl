@@ -28,7 +28,7 @@ cat <<EOL > /etc/awslogs/awslogs.conf
 state_file = /var/lib/awslogs/agent-state
 
 [/vault/audit]
-file = /vault/logs/vault_audit.log
+file = /mnt/vault/logs/vault_audit.log
 log_group_name = ${log_group_name}
 log_stream_name = audit-log
 datetime_format = %Y-%m-%dT%H:%M:%S
