@@ -28,13 +28,13 @@ resource "aws_route_table" "public_principal" {
 }
 
 resource "aws_route_table_association" "route_table_association_pub_a_principal" {
-  count  = var.create_vpc ? 1 : 0
+  count          = var.create_vpc ? 1 : 0
   subnet_id      = aws_subnet.pub_subnet_a_principal[0].id
   route_table_id = aws_route_table.public_principal[0].id
 }
 
 resource "aws_route_table_association" "route_table_association_pub_b_principal" {
-  count  = var.create_vpc ? 1 : 0
+  count          = var.create_vpc ? 1 : 0
   subnet_id      = aws_subnet.pub_subnet_b_principal[0].id
   route_table_id = aws_route_table.public_principal[0].id
 }
@@ -71,23 +71,24 @@ resource "aws_route" "route_with_nat_gateway_principal" {
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.nat_gateway_pub_a_principal[0].id
 
-  depends_on = [aws_route_table.private_principal, aws_route_table_association.route_table_association_pri_a_principal]
+  depends_on = [aws_route_table.private_principal, aws_route_table_association.route_table_association_pri_a_principal, aws_route_table_association.route_table_association_pri_b_principal]
 }
 
 resource "aws_route" "route_with_network_interface_principal" {
   count = var.create_nat_instance && var.create_vpc ? 1 : 0
 
-  route_table_id            = aws_route_table.private_principal[0].id
-  destination_cidr_block    = "0.0.0.0/0"
-  network_interface_id      = aws_network_interface.nat_instance_network_interface[0].id
+  route_table_id         = aws_route_table.private_principal[0].id
+  destination_cidr_block = "0.0.0.0/0"
+  network_interface_id   = aws_network_interface.nat_instance_network_interface[0].id
 
-  depends_on = [aws_route_table.private_principal, aws_route_table_association.route_table_association_pri_a_principal]
+  depends_on = [aws_route_table.private_principal, aws_route_table_association.route_table_association_pri_a_principal, aws_route_table_association.route_table_association_pri_b_principal]
 }
 
 resource "aws_route_table_association" "route_table_association_pri_a_principal" {
   count          = var.create_vpc ? 1 : 0
   subnet_id      = aws_subnet.pri_subnet_a_principal[0].id
   route_table_id = aws_route_table.private_principal[0].id
+
 }
 
 resource "aws_route_table_association" "route_table_association_pri_b_principal" {
@@ -172,21 +173,21 @@ resource "aws_route_table" "private_replica" {
 }
 
 resource "aws_route" "route_with_nat_gateway_replica" {
-  count = var.create_nat_gateway && var.create_replica ? 1 : 0
-  provider = aws.replica
+  count                  = var.create_nat_gateway && var.create_replica ? 1 : 0
+  provider               = aws.replica
   route_table_id         = aws_route_table.private_replica[0].id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.nat_gateway_pub_a_replica[0].id
-  depends_on = [aws_route_table.private_replica]
+  depends_on             = [aws_route_table.private_replica, aws_route_table_association.route_table_association_pri_a_replica, aws_route_table_association.route_table_association_pri_b_replica]
 }
 
 resource "aws_route" "route_with_network_interface_replica" {
-  count = var.create_nat_instance && var.create_replica ? 1 : 0
-  provider = aws.replica
-  route_table_id            = aws_route_table.private_replica[0].id
-  destination_cidr_block    = "0.0.0.0/0"
-  network_interface_id      = aws_network_interface.nat_instance_network_interface_replica[0].id
-  depends_on = [aws_route_table.private_replica]
+  count                  = var.create_nat_instance && var.create_replica ? 1 : 0
+  provider               = aws.replica
+  route_table_id         = aws_route_table.private_replica[0].id
+  destination_cidr_block = "0.0.0.0/0"
+  network_interface_id   = aws_network_interface.nat_instance_network_interface_replica[0].id
+  depends_on             = [aws_route_table.private_replica, aws_route_table_association.route_table_association_pri_a_replica, aws_route_table_association.route_table_association_pri_b_replica]
 }
 
 resource "aws_route_table_association" "route_table_association_pri_a_replica" {
