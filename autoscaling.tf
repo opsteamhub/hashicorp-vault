@@ -77,6 +77,7 @@ resource "aws_launch_template" "vault" {
     log_group_name   = local.log_name
 
     })) : base64encode(templatefile("${path.module}/templates/userdata_filebeat.tpl", {
+    cluster_vault                       = var.project_name
     FILEBEAT_VERSION                    = var.filebeat_version
     ELASTICSEARCH_HOST                  = var.elasticsearch_host
     ELASTICSEARCH_USERNAME              = var.elasticsearch_username
@@ -196,6 +197,7 @@ resource "aws_launch_template" "replica" {
     region_principal = var.region_principal
     log_group_name   = local.log_name
   })) : base64encode(templatefile("${path.module}/templates/userdata_filebeat.tpl", {
+    cluster_vault                       = var.project_name
     FILEBEAT_VERSION                    = var.filebeat_version
     ELASTICSEARCH_HOST                  = var.elasticsearch_host
     ELASTICSEARCH_USERNAME              = var.elasticsearch_username
