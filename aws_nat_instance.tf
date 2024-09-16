@@ -172,6 +172,8 @@ resource "aws_network_interface_attachment" "nat_instance_attachment" {
   network_interface_id = aws_network_interface.nat_instance_network_interface[0].id
   device_index         = 0 # Você pode alterar este valor conforme necessário
 
+  depends_on = [aws_network_interface.nat_instance_network_interface]
+
   lifecycle {
     create_before_destroy = true
     ignore_changes = [
@@ -368,6 +370,8 @@ resource "aws_network_interface_attachment" "nat_instance_attachment_replica" {
   instance_id          = data.aws_instances.nat_instance_replica.ids[0]
   network_interface_id = aws_network_interface.nat_instance_network_interface_replica[0].id
   device_index         = 0
+
+  depends_on = [aws_network_interface.nat_instance_network_interface_replica]
 
   lifecycle {
     create_before_destroy = true
