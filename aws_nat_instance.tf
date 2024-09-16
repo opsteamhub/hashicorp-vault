@@ -160,16 +160,21 @@ resource "aws_eip" "nat_instance_eip" {
 }
 
 resource "aws_eip_association" "nat_instance_eip_assoc" {
-  count                = var.create_nat_instance && length(aws_network_interface.nat_instance_network_interface.*.id) > 0 ? 1 : 0
-  network_interface_id = aws_network_interface.nat_instance_network_interface[0].id
-  allocation_id        = aws_eip.nat_instance_eip[0].id
+  count = var.create_nat_instance && length(aws_network_interface.nat_instance_network_interface.*.id) > 0 
+            ? length(aws_network_interface.nat_instance_network_interface.*.id) 
+            : 0
+
+  network_interface_id = aws_network_interface.nat_instance_network_interface[count.index].id
+  allocation_id        = aws_eip.nat_instance_eip[count.index].id
 }
 
 resource "aws_network_interface_attachment" "nat_instance_attachment" {
-  count = var.create_nat_instance && length(data.aws_instances.nat_instance.ids) > 0 ? 1 : 0
+  count = var.create_nat_instance && length(data.aws_instances.nat_instance.ids) > 0 
+            ? length(aws_network_interface.nat_instance_network_interface.*.id) 
+            : 0
 
-  instance_id          = data.aws_instances.nat_instance.ids[0]
-  network_interface_id = aws_network_interface.nat_instance_network_interface[0].id
+  instance_id          = data.aws_instances.nat_instance.ids[count.index]
+  network_interface_id = aws_network_interface.nat_instance_network_interface[count.index].id
   device_index         = 0 # Você pode alterar este valor conforme necessário
 
   depends_on = [aws_network_interface.nat_instance_network_interface]
@@ -357,18 +362,23 @@ resource "aws_eip" "nat_instance_eip_replica" {
 }
 
 resource "aws_eip_association" "nat_instance_eip_assoc_replica" {
-  count                = var.create_nat_instance && var.create_replica && length(aws_network_interface.nat_instance_network_interface_replica.*.id) > 0 ? 1 : 0
+  count                = var.create_nat_instance && var.create_replica && length(aws_network_interface.nat_instance_network_interface_replica.*.id) > 0 
+                          ? length(aws_network_interface.nat_instance_network_interface_replica.*.id) 
+                          : 0
   provider             = aws.replica
-  network_interface_id = aws_network_interface.nat_instance_network_interface_replica[0].id
-  allocation_id        = aws_eip.nat_instance_eip_replica[0].id
+  network_interface_id = aws_network_interface.nat_instance_network_interface_replica[count.index].id
+  allocation_id        = aws_eip.nat_instance_eip_replica[count.index].id
 }
 
+
 resource "aws_network_interface_attachment" "nat_instance_attachment_replica" {
-  count    = var.create_nat_instance && var.create_replica && length(data.aws_instances.nat_instance_replica.ids) > 0 && length(data.aws_network_interfaces.existing_attachments[0].ids) == 0 ? 1 : 0
+  count    = var.create_nat_instance && var.create_replica && length(data.aws_instances.nat_instance_replica.ids) > 0 && length(data.aws_network_interfaces.existing_attachments[0].ids) == 0 
+              ? length(aws_network_interface.nat_instance_network_interface_replica.*.id) 
+              : 0
   provider = aws.replica
 
-  instance_id          = data.aws_instances.nat_instance_replica.ids[0]
-  network_interface_id = aws_network_interface.nat_instance_network_interface_replica[0].id
+  instance_id          = data.aws_instances.nat_instance_replica.ids[count.index]
+  network_interface_id = aws_network_interface.nat_instance_network_interface_replica[count.index].id
   device_index         = 0
 
   depends_on = [aws_network_interface.nat_instance_network_interface_replica]
