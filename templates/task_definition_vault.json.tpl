@@ -78,11 +78,5 @@
     "dnsSearchDomains": [],
     "dockerSecurityOptions": [],
     "pseudoTerminal": false                  
-  }
-  "volume": {
-    "name": "vault-logs",
-    "host": {
-        "sourcePath": "/mnt/vault/logs"
-    }    
-  }   
+  } 
 ]
