@@ -44,6 +44,13 @@
         "value": "${region}"
       }                                                         
     ],
+    "mountPoints": [
+        {
+            "sourceVolume": "vault-logs",
+            "containerPath": "/vault/logs",
+            "readOnly": false
+        }
+    ],    
     "portMappings": [
         {
              "containerPort": 8200,
@@ -64,7 +71,15 @@
         "awslogs-region": "${region}",
         "awslogs-stream-prefix": "ecs"
       }
-    },         
+    },    
+    "volumes": [
+        {
+            "name": "vault-logs",
+            "host": {
+                "sourcePath": "/vault/logs"
+            }
+        }
+    ],         
     "privileged": false,
     "readonlyRootFilesystem": false,
     "dnsServers": [],
