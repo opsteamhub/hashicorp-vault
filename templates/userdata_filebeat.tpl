@@ -46,7 +46,7 @@ output.elasticsearch:
   username: "${ELASTICSEARCH_USERNAME}"
   password: "${ELASTICSEARCH_PASSWORD}"
   ssl.verification_mode: ${ELASTICSEARCH_SSL_VERIFICATION_MODE}
-  index: '${cluster_vault}-"%{+yyyy.MM.dd}"'
+  index: '${cluster_vault}-%{literal}%{+yyyy.MM.dd}%{end-literal}'
 EOL
 
 # Inicia o serviço do Filebeat
