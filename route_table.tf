@@ -65,7 +65,7 @@ resource "aws_route_table" "private_principal" {
 }
 
 resource "aws_route" "route_with_nat_gateway_principal" {
-  count = (var.create_nat_gateway ? 0 : 1) * (var.create_vpc ? 1 : 0)
+  count = (var.create_nat_gateway ? 1 : 0) * (var.create_vpc ? 1 : 0)
 
   route_table_id         = aws_route_table.private_principal[0].id
   destination_cidr_block = "0.0.0.0/0"

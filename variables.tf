@@ -196,11 +196,6 @@ variable "create_vpc" {
   default = true
 }
 
-variable "create_nat_instance" {
-  type    = bool
-  default = false
-}
-
 variable "vpc_id" {
   default = null
 }
@@ -286,4 +281,9 @@ variable "filebeat_config" {
 
 variable "create_nat_gateway" {
   default = true
+}
+
+variable "create_nat_instance" {
+  type    = bool
+  default = false
 }
