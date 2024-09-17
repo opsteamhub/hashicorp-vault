@@ -279,10 +279,6 @@ variable "filebeat_config" {
   default = {}
 }
 
-variable "create_nat_gateway" {
-  default = true
-}
-
 variable "create_nat_instance" {
   type    = bool
   default = false
