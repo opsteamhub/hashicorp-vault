@@ -44,6 +44,16 @@ resource "aws_route_table" "private_principal" {
   count  = var.create_vpc ? 1 : 0
   vpc_id = aws_vpc.vpc[0].id
 
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = var.create_nat_instance == false ? aws_nat_gateway.nat_gateway_pub_a_principal[0].id : null
+  }
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = var.create_nat_instance == true ? aws_network_interface.nat_instance_network_interface[0].id : null
+  }  
+
   dynamic "route" {
     for_each = var.routes_principal
     content {
@@ -64,25 +74,25 @@ resource "aws_route_table" "private_principal" {
   }
 }
 
-resource "aws_route" "route_with_nat_gateway_principal" {
-  count = (var.create_nat_gateway ? 1 : 0) * (var.create_vpc ? 1 : 0)
-
-  route_table_id         = aws_route_table.private_principal[0].id
-  destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.nat_gateway_pub_a_principal[0].id
-
-  depends_on = [aws_route_table.private_principal, aws_route_table_association.route_table_association_pri_a_principal, aws_route_table_association.route_table_association_pri_b_principal]
-}
-
-resource "aws_route" "route_with_network_interface_principal" {
-  count = var.create_nat_instance && var.create_vpc ? 1 : 0
-
-  route_table_id         = aws_route_table.private_principal[0].id
-  destination_cidr_block = "0.0.0.0/0"
-  network_interface_id   = aws_network_interface.nat_instance_network_interface[0].id
-
-  depends_on = [aws_route_table.private_principal, aws_route_table_association.route_table_association_pri_a_principal, aws_route_table_association.route_table_association_pri_b_principal]
-}
+#resource "aws_route" "route_with_nat_gateway_principal" {
+#  count = (var.create_nat_gateway ? 1 : 0) * (var.create_vpc ? 1 : 0)
+#
+#  route_table_id         = aws_route_table.private_principal[0].id
+#  destination_cidr_block = "0.0.0.0/0"
+#  nat_gateway_id         = aws_nat_gateway.nat_gateway_pub_a_principal[0].id
+#
+#  depends_on = [aws_route_table.private_principal, aws_route_table_association.route_table_association_pri_a_principal, aws_route_table_association.route_table_association_pri_b_principal]
+#}
+#
+#resource "aws_route" "route_with_network_interface_principal" {
+#  count = var.create_nat_instance && var.create_vpc ? 1 : 0
+#
+#  route_table_id         = aws_route_table.private_principal[0].id
+#  destination_cidr_block = "0.0.0.0/0"
+#  network_interface_id   = aws_network_interface.nat_instance_network_interface[0].id
+#
+#  depends_on = [aws_route_table.private_principal, aws_route_table_association.route_table_association_pri_a_principal, aws_route_table_association.route_table_association_pri_b_principal]
+#}
 
 resource "aws_route_table_association" "route_table_association_pri_a_principal" {
   count          = var.create_vpc ? 1 : 0
